@@ -1,0 +1,2 @@
+# exclude ipnb checkout
+.ipynb_checkpoints
