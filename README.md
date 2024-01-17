@@ -1,7 +1,7 @@
 # **scATAcat: scATAC-seq cluster annotation tool**
 
 
-![plot](./logo/logo.svg)
+![plot](./logo/logo.svg| width=50)
 
 scATAcat is a tool for annotation of cell-types in scATAC-seq data based on characterized bulk ATAC-seq data. 
 
