@@ -12,6 +12,7 @@ def get_pseudobulk_matrix(adata, cluster_key = 'leiden', method = 'sum'):
     Constructs pseudobulk by features matrix given the cluster key. 
     
     Parameters:
+    
     - adata (AnnData): An AnnData object containing the sc count matrix.
     - cluster_key (str, optional): The key for the cluster key from which the pseudobulk matrix is constructed. Default is "leiden".
     - method: method to aggregate the cells:
@@ -19,6 +20,7 @@ def get_pseudobulk_matrix(adata, cluster_key = 'leiden', method = 'sum'):
         - mean: takes the mean of the feature counts across cells
         
     Returns:
+    
     - Pandas dataframe in th shape of pseudobulk x feature. 
         
     '''
@@ -41,6 +43,7 @@ def get_pseudobulk_matrix_ext(adata_to_subset, adata_to_get_clusters, cluster_ke
     Constructs pseudobulk by features matrix given the cluster key and AnnData objects. 
     
     Parameters:
+    
     - adata_to_subset (AnnData): An AnnData object containing the sc count matrix.
     - adata_to_get_clusters (AnnData): An AnnData object containing the clusterong information for give  cluster_key.
     - cluster_key (str, optional): The key for the cluster key from which the pseudobulk matrix is constructed. Default is "leiden".
@@ -49,6 +52,7 @@ def get_pseudobulk_matrix_ext(adata_to_subset, adata_to_get_clusters, cluster_ke
         - mean: takes the mean of the feature counts across cells
         
     Returns:
+    
     - Pandas dataframe in th shape of pseudobulk x feature. 
         
     '''
@@ -71,9 +75,11 @@ def get_closest_prototype_to_pseudobulk(pseudobulk_prototype_centroid_euclidean_
     Calculates the distances between prototypes and pseudobulks and returns the closest prototype to a pseudobulk.
     
     Paramaters:
+    
     - pseudobulk_prototype_centroid_euclidean_dis_df (Pandas Dataframe): square matrix of pairwise distances between prorootype centroids and pseudobulk samples. Can be obtained by running plot_pca_dist_cent_heatmap() function.
 
     Returns:
+    
      - {pseudobulk:closest_prototype} dictionary  
     '''
 
@@ -94,6 +100,7 @@ def get_closest_pseubulk_to_prototype(pseudobulk_prototype_centroid_euclidean_di
     Calculates the distances between pseudobulks and prototypes and returns the closest pseudobulk to a prototype.
         
     Paramaters:
+    
     - pseudobulk_prototype_centroid_euclidean_dis_df (Pandas Dataframe): square matrix of pairwise distances between prorootype centroids and pseudobulk samples. Can be obtained by running plot_pca_dist_cent_heatmap() function.
     
     Returns:
@@ -115,13 +122,17 @@ def get_closest_pseubulk_to_prototype(pseudobulk_prototype_centroid_euclidean_di
 def get_pseudobulk_to_prototype_distance(pseudobulk_prototype_centroid_euclidean_dis_df, pbulk_to_prototype=True):
     '''
     Transfers Euclidean distances to scaled similarities based on pseudobulk and bulk samples' perspectives.
+    
     This function takes a square matrix of pairwise Euclidean distances between bulk centroids and pseudobulk samples.
+    
     It then scales the distances to the minimum and returns a DataFrame representing the percentage contributions for each sample.
     
     Parameters:
+    
     - pseudobulk_prototype_centroid_euclidean_dis_df (DataFrame): A square matrix of pairwise distances between bulk centroids and pseudobulk samples.
-    - pbulk_to_prototype (bool, optional): If True, the distances are determined by the prorotypes' perspective.
-                                           If False, the distances are determined by the pseudobulk samples' perspective. Default is True.
+    - pbulk_to_prototype (bool, optional): 
+        - If True, the distances are determined by the prorotypes' perspective.
+        - If False, the distances are determined by the pseudobulk samples' perspective. Default is True.
 
     '''
     if pbulk_to_prototype==False:

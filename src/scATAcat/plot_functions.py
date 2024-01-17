@@ -17,10 +17,12 @@ def cell_feature_statistics(adata, binary_layer_key ='binary'):
     Calculates the cell and feature statistics and adds them to AnnData.
         
     Parameters:
+    
     - adata (AnnData): An AnnData object containing the sc count matrix.
     - binary_layer_key (str, optional): The key for accessing the layer to calculates the cell and feature statistics, Default 'binary'.
 
     Returns:
+    
     AnnData with the following features:
         - num_cell_per_feature: how many cells have a count for a feature? / number of cells sharing a feature
         - num_feature_per_cell : how many features are open for a cell? / number of features in a cell
@@ -38,9 +40,11 @@ def cell_feature_statistics(adata, binary_layer_key ='binary'):
 def plot_cell_statistics(adata, binary_layer_key ='binary', color=None, edgecolor=None, bins=None, xlabel=None, ylabel=None, title=None, threshold=None, save=False, save_dir=None, dpi=300):
     '''
     Plots the cell statistics. In simpler terms, this method shows how densely features are occupied by cells.
+    
     It provides a visual representation of the distribution and concentration of these cells within the features.
 
     Parameters:
+    
     - adata (AnnData): An AnnData object containing the sc count matrix.
     - binary_layer_key (str, optional): The key for accessing the layer to calculate the cell and feature statistics, Default 'binary'.
     - save (bool, optional): Whether or not to save the figure, Default False. 
@@ -50,6 +54,7 @@ def plot_cell_statistics(adata, binary_layer_key ='binary', color=None, edgecolo
         Are passed to :func:`matplotlib.pyplot.hist`.
 
     Returns:
+    
     - AnnData obejct with following features: 
         - num_cell_per_feature (int): how many cells have a count for a feature? / number of cells sharing a feature
         - num_feature_per_cell : how many features are open for a cell? / number of features in a cell
@@ -101,9 +106,11 @@ def plot_cell_statistics(adata, binary_layer_key ='binary', color=None, edgecolo
 def plot_feature_statistics(adata, binary_layer_key ='binary', color=None, edgecolor=None, bins=None, xlabel=None, ylabel=None, title=None, threshold=None, save=False, save_dir=None, dpi=300, fig_size_inches= (15,15)):
     '''
     Plots the feature statistics. In simpler terms, this method shows how densely cells are occupied by features.
+    
     It provides a visual representation of the distribution and concentration of these features within the cells.
 
     Parameters:
+    
     - adata (AnnData): An AnnData object containing the sc count matrix.
     - binary_layer_key (str, optional): The key for accessing the layer to calculate the cell and feature statistics, Default 'binary'.
     - save (bool, optional): Whether or not to save the figure, Default False. 
@@ -113,6 +120,7 @@ def plot_feature_statistics(adata, binary_layer_key ='binary', color=None, edgec
         Are passed to :func:`matplotlib.pyplot.hist`.
 
     Returns:
+    
     - AnnData obejct with following features: 
         - num_cell_per_feature (int): how many cells have a count for a feature? / number of cells sharing a feature
         - num_feature_per_cell : how many features are open for a cell? / number of features in a cell
@@ -166,6 +174,7 @@ def projection(prototype_adata, pseudobulk_adata, prototype_layer_key = "libsize
     Custom 3D PCA projection of prototypes and pseudobulks.  
 
     Parameters:
+    
     - prototype_adata (AnnData): An AnnData object containing the prototype count matrix.
     - pseudobulk_adata(AnnData): An AnnData object containing the pseudobulk count matrix.
     - prototype_layer_key (str): The key for accessing the prototype layer for projection. Default 'libsize_norm_log2_std'.
@@ -187,6 +196,7 @@ def projection(prototype_adata, pseudobulk_adata, prototype_layer_key = "libsize
     - fig_size_inches (tuple): A tuple representing the size (width, height) of the figure in inches. Default (15,15).
 
     Returns: 
+    
     - 3D PCA projection figure.
     - PCA transformed values of prototypes.
     - PCA transformed values of pseudbulks.
@@ -298,21 +308,21 @@ def projection(prototype_adata, pseudobulk_adata, prototype_layer_key = "libsize
 
 def plot_pca_dist_heatmap(trained_bulk_pca_df_w_labels,projected_pseudobulk_pca_df, cmap='Blues_r'):
     '''
-    Plot a heatmap visualizing the pairwise Euclidean distances of prototypes and pseudobulks
+    Plot a heatmap visualizing the pairwise Euclidean distances of prototypes and pseudobulks.
+    
+    This function combines PCA components of projected pseudobulk data and trained prototype data, calculates the pairwise Euclidean distances, and plots a heatmap using Seaborn's clustermap.
 
     Parameters:
+    
     - trained_bulk_pca_df_w_labels (DataFrame): DataFrame containing PCA components of trained prototypes with labels.
     - projected_pseudobulk_pca_df (DataFrame): DataFrame containing PCA components of projected pseudobulk data.
     - cmap (str, optional): Colormap for the heatmap. Default is 'Blues_r'.
 
     Returns:
+    
     - tuple: A tuple containing:
         - sns.ClusterGrid: Seaborn ClusterGrid object representing the heatmap.
         - DataFrame: DataFrame containing the pairwise Euclidean distances.
-
-    This function combines PCA components of projected pseudobulk data and trained prototype data,
-    calculates the pairwise Euclidean distances, and plots a heatmap using Seaborn's clustermap.
-
     '''
     n_PC= projected_pseudobulk_pca_df.shape[1] -2
     #combine PCs
@@ -330,7 +340,10 @@ def plot_pca_dist_cent_heatmap(trained_bulk_pca_df_w_labels,projected_pseudobulk
     '''
     Plot a heatmap visualizing the pairwise Euclidean distances between centroids of prorotypes and pseudobulks.
 
+        This function combines PCA components of projected pseudobulk data and trained prototype data, calculates centroids for trained prototype data, and plots a heatmap using Seaborn's clustermap.
+
     Parameters:
+    
     - trained_bulk_pca_df_w_labels (DataFrame): DataFrame containing PCA components of trained bulk data with labels.
     - projected_pseudobulk_pca_df (DataFrame): DataFrame containing PCA components of projected pseudobulk data.
     - cmap (str, optional): Colormap for the heatmap. Default is 'Blues_r'.
@@ -339,12 +352,7 @@ def plot_pca_dist_cent_heatmap(trained_bulk_pca_df_w_labels,projected_pseudobulk
     - tuple: A tuple containing:
         - sns.ClusterGrid: Seaborn ClusterGrid object representing the heatmap.
         - DataFrame: DataFrame containing the pairwise Euclidean distances.
-
-    This function combines PCA components of projected pseudobulk data and trained prototype data,
-    calculates centroids for trained prototype data, and plots a heatmap using Seaborn's clustermap.
-
-    '''
-   
+    ''' 
     n_PC= projected_pseudobulk_pca_df.shape[1] -2
     trained_bulk_pca_df_w_labels_centroid = trained_bulk_pca_df_w_labels.groupby('cell_type')[trained_bulk_pca_df_w_labels.columns[0:n_PC]].agg('mean')
     # combine centrodis and pbulk dfs and calculate pairwise distances
@@ -363,8 +371,11 @@ def plot_pca_dist_cent_heatmap(trained_bulk_pca_df_w_labels,projected_pseudobulk
 def plot_gene_activity_of_UMAP(adata, gene_name, activity_matrix, out_path, point_size=22, cmap=None):
     '''
     Plot UMAP embedding of the given genes' activity across single cells. 
+    
+    This function saves a Matplotlib figure to the specified file path.
 
     Parameters:
+    
     - adata (AnnData): An AnnData object containing the sc count matrix.
     - gene_name (str): Name of the gene.
     - activity_matrix (DataFrame): Gene activity score of the gene across cells. (Rows:cells x columns:genes (str))
@@ -373,9 +384,8 @@ def plot_gene_activity_of_UMAP(adata, gene_name, activity_matrix, out_path, poin
     - cmap: Color map object passed to sc.pl.umap()
 
     Returns:
+    
     - None
-
-    This function saves a Matplotlib figure to the specified file path.
     
     '''
     if gene_name not in activity_matrix.index:

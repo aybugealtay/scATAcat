@@ -12,13 +12,16 @@ def add_binary_layer(adata, binary_layer_key="binary"):
     Convert the count matrix associated with the AnnData object to binary and adds it as a new layer.
 
     This function converts the count matrix in the AnnData object to binary, where non-zero values are set to 1.
+    
     The resulting binary matrix is added as a new layer in the AnnData object using the specified key.
 
     Parameters:
+    
     - adata (AnnData): An AnnData object containing the sc count matrix.
     - binary_layer_key (str, optional): The key for the binary layer to be added. Default is "binary".
 
     Returns:
+    
     - AnnData: The AnnData object with the binary layer added.
 
     '''
@@ -36,14 +39,18 @@ def preproces_sc_matrix(adata,cell_cutoff=1000, cell_cutoff_max=80000, feature_c
     Preprocess a sc count matrix in AnnData format.
     
     This function preprocesses a single-cell count matrix in AnnData format by applying the following steps:
+    
     1. Filters cells based on the number of features per cell using the specified cutoffs.
+    
     2. Filters features based on the number of cells per feature using the specified cutoff.
+    
     3. Optionally removes features associated with chromosome Y.
     
-    If copy is True, a new AnnData object with the preprocessed data is returned, leaving the original AnnData object unchanged.
-    If copy is False, the original AnnData object is modified in place, and the preprocessed AnnData object is returned.
+    If `copy` is True, a new AnnData object with the preprocessed data is returned, leaving the original AnnData object unchanged.
+    If `copy` is False, the original AnnData object is modified in place, and the preprocessed AnnData object is returned.
 
     Parameters:
+    
     - adata (AnnData): An AnnData object containing the sc count matrix.
     - cell_cutoff (int, optional): Minimum number of features required per cell. Default is 1000.
     - cell_cutoff_max (int, optional): Maximum number of features allowed per cell. Default is 80000.
@@ -53,6 +60,7 @@ def preproces_sc_matrix(adata,cell_cutoff=1000, cell_cutoff_max=80000, feature_c
     - copy (bool, optional): If True, a copy of the AnnData object is returned; if False, the original AnnData object is modified. Default is False.
 
     Returns:
+    
     - AnnData: The preprocessed AnnData object.
     '''
     
@@ -81,10 +89,12 @@ def overlap_vars(adata1, adata2):
     Generic function to get shared variables between two AnnData objects.
 
     Parameters:
+    
     - adata1 (AnnData): An AnnData object containing the sc count matrix.
     - adata2 (AnnData): An AnnData object containing the sc count matrix.
-    
+
     Returns:
+    
     - List: List of shared variables. 
     
     '''
@@ -97,25 +107,17 @@ def subset_adata_vars(adata, vars_list, copy_=True):
     '''
     Subset the variables (features) of an AnnData object based on a specified list.
 
+    The resulting AnnData object includes only the variables specified in the `vars_list`.
+
     Parameters:
+    
     - adata (AnnData): An AnnData object containing the sc count matrix.
     - vars_list (list): A list of variable names (features) to retain in the subset.
     - copy_ (bool, optional): If True, a copy of the AnnData object is returned; if False, the original AnnData object is modified. Default is True.
 
     Returns:
-    - AnnData: The AnnData object with a subset of variables.
-
-    This function subsets the variables (features) of the AnnData object based on the provided list.
-    The resulting AnnData object includes only the variables specified in the `vars_list`.
-
-    Parameters:
-    - adata (AnnData): An AnnData object containing the sc single-cell count matrix.
-    - vars_list (list): A list of variable names (features) to retain in the subset.
-    - copy_ (bool, optional): If True, a copy of the AnnData object is returned; if False, the original AnnData object is modified. Default is True.
-
-    Returns:
-    - AnnData: The AnnData object with a subset of variables.
     
+    - AnnData: The AnnData object with a subset of variables.
     '''
     if copy_==False:
         adata = adata[:, sorted(vars_list)]
@@ -126,26 +128,19 @@ def subset_adata_vars(adata, vars_list, copy_=True):
         
 def subset_adata_obs(adata, obs_list, copy_=True):
     '''
-    Subset the observations (cells) of an AnnData object based on a specified list.
-
-    Parameters:
-    - adata (AnnData): An AnnData object containing the single-cell count matrix.
-    - vars_list (list): A list of observations names (cells) to retain in the subset.
-    - copy_ (bool, optional): If True, a copy of the AnnData object is returned; if False, the original AnnData object is modified. Default is True.
-
-    Returns:
-    - AnnData: The AnnData object with a subset of variables.
-
     This function subsets the observations (cells) of the AnnData object based on the provided list.
+    
     The resulting AnnData object includes only the variables specified in the `vars_list`.
 
     Parameters:
-    - adata (AnnData): An AnnData object containing the single-cell count matrix.
+    
+    - adata (AnnData): An AnnData object containing the sc count matrix.
     - vars_list (list): A list of observations names (cells) to retain in the subset.
     - copy_ (bool, optional): If True, a copy of the AnnData object is returned; if False, the original AnnData object is modified. Default is True.
 
     Returns:
-    - AnnData: The AnnData object with a subset of observations.
+    
+    - AnnData: The AnnData object with a subset of variables.
     '''
     if copy_==False:
         adata = adata[sorted(obs_list)]
@@ -158,15 +153,19 @@ def subset_adata_obs(adata, obs_list, copy_=True):
 def apply_TFIDF_sparse(adata, binary_layer_key='binary', TFIDF_key='TF_logIDF' ):
     '''
     Apply Term Frequency - Inverse Document Frequency TF-log(IDF) normalization to the binary layer of the AnnData object.
+    
     If the binary layer is not present, it calculates and adds the binary layer using the specified key.
+    
     Additionally, if cell and feature statistics are not available, it calculates them using the binary layer.
 
     Parameters:
+    
     - adata (AnnData):  An AnnData object containing the sc count matrix.
     - binary_layer_key (str): The key for accessing the binary layer. Default is "binary".
     - TFIDF_key (str): The key for the TFIDF normalized matrix layer to be added. Default is "TF_logIDF".
 
     Returns:
+    
     - AnnData: The AnnData object with the TF-log(IDF) normalized layer added.
     '''
     if not binary_layer_key in adata.layers:
@@ -187,16 +186,19 @@ def apply_TFIDF_sparse(adata, binary_layer_key='binary', TFIDF_key='TF_logIDF' )
 
 def apply_PCA(adata, layer_key = "TF_logIDF", svd_solver = 'arpack', random_state=0):
     '''
-    Wrapper around scanpy.tl.pca to enable applying scanpy.tl.pca function to a specified layer
+    Wrapper around scanpy.tl.pca to enable applying scanpy.tl.pca function to a specified layer. 
+    
+    adds the _pca, _components, explained_variance_ratio_, explained_variance_  to adata object
+
+    see scanpy documentaion for details: https://scanpy.readthedocs.io/en/latest/generated/scanpy.tl.pca.html#scanpy-tl-pca
     
     Parameters:
+    
     - adata (AnnData):  An AnnData object containing the sc count matrix.
     - layer_key: The key for accessing the layer to which PCA is applied. Default is "TF_logIDF". 
-    
-    see scanpy documentaion for details: https://scanpy.readthedocs.io/en/latest/generated/scanpy.tl.pca.html#scanpy-tl-pca
-    adds the _pca, _components, explained_variance_ratio_, explained_variance_  to adata object
-    
+
     Returns:
+    
     - AnnData: The AnnData object with the TF-log(IDF) normalized layer added.
     '''
     pca__ = sc.tl.pca(adata.layers[layer_key], svd_solver= svd_solver, return_info=True,random_state=0)
@@ -219,13 +221,15 @@ def apply_PCA(adata, layer_key = "TF_logIDF", svd_solver = 'arpack', random_stat
 def preprocessing_libsize_norm_log2(adata):
     '''
     Perform libray-size normalization & log2 transformation on the Anndata object.
+    
     Normalized and log2 transformed matrix is added as a layer with keyword "libsize_norm_log2". 
 
     Parameters:
+    
     - adata (AnnData): An AnnData object containing the sc count matrix.
 
-        
     Returns:
+    
     - AnnData: The AnnData object with the libsize_norm_log2 normalized layer added.
 
     '''
@@ -256,6 +260,7 @@ def sparse_mean_variance_axis(mtx: scipy.sparse.spmatrix, axis: int):
     `sparsefuncs.mean_variance_axis`.
 
     Modifications:
+    
     * allow deciding on the output type, which can increase accuracy when calculating the mean and variance of 32bit floats.
     * This doesn't currently implement support for null values, but could.
     * Uses numba not cython
@@ -284,6 +289,7 @@ def preprocessing_standardization(adata, input_layer_key="libsize_norm_log2", ou
     Additionally, if alternative std_ and mean_ matrices/arrays are provided, these values are utilized for the calculations instead of assuming zero mean and unit variance.
 
     Parameters:
+    
     - adata (AnnData): An AnnData object containing the sc count matrix.
     - input_layer_key (str): The key for accessing the layer to which standardization is applied. Default is "libsize_norm_log2". 
     - output_layer_key (str): The key for the standardized layer to be added. Default is "libsize_norm_log2_std".
@@ -293,6 +299,7 @@ def preprocessing_standardization(adata, input_layer_key="libsize_norm_log2", ou
     - mean_ (numpy array): The key for accessing the mean. If specified, it is utilized for the  z-score calculations instead of assuming zero mean and unit variance. Default is None. 
 
     Returns:
+    
     - AnnData: The AnnData object with the libsize_norm_log2_std standardized layer added.
     
     '''

@@ -8,11 +8,13 @@ def generate_bulk_AnnData(bulk_df):
     Generate AnnData object from DataFrame.
 
     Parameters:
+    
     - bulk_df (DataFrame): Dataframe of prototype data:
         - columns: cell types / samples
         - rows: featues (cCREs)
         
     Returns:
+    
     - AnnData of prototypes.
         
     '''
@@ -30,12 +32,14 @@ def generate_bulk_sparse_AnnData(bulk_df, var_key='cCREs', obs_key='cell_types')
     Generate AnnData object from DataFrame. The count matrix is sparse. 
 
     Parameters:
+    
     - bulk_df (DataFrame): Dataframe of prototype data:
         - columns: cell types / samples
         - rows: featues (cCREs)
         
     Returns:
-    - AnnData of prototypes.
+    
+        - AnnData of prototypes.
         
     '''
     features = pd.DataFrame(bulk_df.index)
@@ -54,16 +58,18 @@ def preprocess_bulk_adata(bulk_adata, remove_chrY=True, var_key = 'cCREs', copy=
     Preprocess a prototype count matrix in AnnData format.
     This function preprocesses a prototype count matrix in AnnData format by optionally removing features associated with chromosome Y.
 
-    If copy is True, a new AnnData object with the preprocessed data is returned, leaving the original AnnData object unchanged.
-    If copy is False, the original AnnData object is modified in place, and the preprocessed AnnData object is returned.
+    If `copy` is True, a new AnnData object with the preprocessed data is returned, leaving the original AnnData object unchanged.
+    If `copy` is False, the original AnnData object is modified in place, and the preprocessed AnnData object is returned.
     
     Parameters:
+    
     - bulk_adata (AnnData): An AnnData object containing the prototype count matrix.
     - remove_chrY (bool, optional): Whether to remove features associated with chromosome Y. Default is True.
     - var_key (str, optional): Key for accessing feature information in AnnData.var. Default is 'cCREs'.
     - copy (bool, optional): If True, a copy of the AnnData object is returned; if False, the original AnnData object is modified. Default is False.
 
     Returns:
+    
     - AnnData: The preprocessed AnnData object.
     '''
     feature_coverage = bulk_adata.X.sum(0)
