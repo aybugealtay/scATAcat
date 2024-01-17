@@ -41,10 +41,7 @@ intersphinx_mapping = dict(
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = "sphinx_rtd_theme"
-html_theme_options = {
-    "repository_url": repository_url,
-    "use_repository_button": True,
-}
+
 html_static_path = ["_static"]
 html_show_sphinx = False
 html_logo = "../logo/logo.svg"
