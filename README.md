@@ -9,6 +9,6 @@ scATAcat is a tool for annotation of cell-types in scATAC-seq data based on char
 You can install the library with:
 
 ``` 
-pip install scatacat
+pip install git+https://github.com/aybugealtay/scATAcat.git
 
 ```
