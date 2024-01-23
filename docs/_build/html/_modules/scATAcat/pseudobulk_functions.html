@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>scATAcat.pseudobulk_functions &mdash; scATAcat Documentation 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            scATAcat Documentation
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">src</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">scATAcat Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">scATAcat.pseudobulk_functions</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for scATAcat.pseudobulk_functions</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">scanpy</span> <span class="k">as</span> <span class="nn">sc</span>
+<span class="kn">import</span> <span class="nn">scipy.sparse</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">anndata</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="get_pseudobulk_matrix">
+<a class="viewcode-back" href="../../scATAcat.html#scATAcat.pseudobulk_functions.get_pseudobulk_matrix">[docs]</a>
+<span class="k">def</span> <span class="nf">get_pseudobulk_matrix</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">cluster_key</span> <span class="o">=</span> <span class="s1">&#39;leiden&#39;</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;sum&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Constructs pseudobulk by features matrix given the cluster key. </span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    - adata (AnnData): An AnnData object containing the sc count matrix.</span>
+<span class="sd">    - cluster_key (str, optional): The key for the cluster key from which the pseudobulk matrix is constructed. Default is &quot;leiden&quot;.</span>
+<span class="sd">    - method: method to aggregate the cells:</span>
+<span class="sd">        - sum: sums the feature counts across cells</span>
+<span class="sd">        - mean: takes the mean of the feature counts across cells</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    - Pandas dataframe in th shape of pseudobulk x feature. </span>
+<span class="sd">        </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">pseudobulk_by_feature_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">var</span><span class="o">.</span><span class="n">values</span><span class="p">)))</span>
+    <span class="c1">#iterate over the clusteter ids, subset the matrix per clusters, and sum/mean/median the values</span>
+    <span class="k">for</span> <span class="n">clust_id</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">cluster_key</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;sum&quot;</span><span class="p">:</span>
+            <span class="n">rname</span> <span class="o">=</span> <span class="s2">&quot;clust_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">clust_id</span><span class="p">)</span>
+            <span class="n">adata</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">cluster_key</span><span class="p">]</span> <span class="o">==</span> <span class="n">clust_id</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">pseudobulk_by_feature_df</span><span class="p">[</span><span class="n">rname</span><span class="p">]</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">cluster_key</span><span class="p">]</span> <span class="o">==</span> <span class="n">clust_id</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">)))</span>   
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;mean&quot;</span><span class="p">:</span>
+            <span class="n">rname</span> <span class="o">=</span> <span class="s2">&quot;clust_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">clust_id</span><span class="p">)</span>
+            <span class="n">adata</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">cluster_key</span><span class="p">]</span> <span class="o">==</span> <span class="n">clust_id</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">pseudobulk_by_feature_df</span><span class="p">[</span><span class="n">rname</span><span class="p">]</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">cluster_key</span><span class="p">]</span> <span class="o">==</span> <span class="n">clust_id</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)))</span>
+            
+    <span class="k">return</span> <span class="n">pseudobulk_by_feature_df</span></div>
+
+
+<div class="viewcode-block" id="get_pseudobulk_matrix_ext">
+<a class="viewcode-back" href="../../scATAcat.html#scATAcat.pseudobulk_functions.get_pseudobulk_matrix_ext">[docs]</a>
+<span class="k">def</span> <span class="nf">get_pseudobulk_matrix_ext</span><span class="p">(</span><span class="n">adata_to_subset</span><span class="p">,</span> <span class="n">adata_to_get_clusters</span><span class="p">,</span> <span class="n">cluster_key</span><span class="o">=</span><span class="s2">&quot;leiden&quot;</span> <span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;sum&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Constructs pseudobulk by features matrix given the cluster key and AnnData objects. </span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    - adata_to_subset (AnnData): An AnnData object containing the sc count matrix.</span>
+<span class="sd">    - adata_to_get_clusters (AnnData): An AnnData object containing the clusterong information for give  cluster_key.</span>
+<span class="sd">    - cluster_key (str, optional): The key for the cluster key from which the pseudobulk matrix is constructed. Default is &quot;leiden&quot;.</span>
+<span class="sd">    - method: method to aggregate the cells:</span>
+<span class="sd">        - sum: sums the feature counts across cells</span>
+<span class="sd">        - mean: takes the mean of the feature counts across cells</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    - Pandas dataframe in th shape of pseudobulk x feature. </span>
+<span class="sd">        </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">pseudobulk_by_feature_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">adata_to_subset</span><span class="o">.</span><span class="n">var</span><span class="o">.</span><span class="n">values</span><span class="p">)))</span>
+    <span class="c1">#iterate over the clusteter ids, subset the matrix per clusters, and sum/mean/median the values</span>
+    <span class="k">for</span> <span class="n">clust_id</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">adata_to_get_clusters</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">cluster_key</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;sum&quot;</span><span class="p">:</span>
+            <span class="n">rname</span> <span class="o">=</span> <span class="s2">&quot;clust_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">clust_id</span><span class="p">)</span>
+            <span class="n">adata_to_subset</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">adata_to_get_clusters</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">cluster_key</span><span class="p">]</span> <span class="o">==</span> <span class="n">clust_id</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">pseudobulk_by_feature_df</span><span class="p">[</span><span class="n">rname</span><span class="p">]</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">adata_to_subset</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">adata_to_get_clusters</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">cluster_key</span><span class="p">]</span> <span class="o">==</span> <span class="n">clust_id</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">)))</span>   
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;mean&quot;</span><span class="p">:</span>
+            <span class="n">rname</span> <span class="o">=</span> <span class="s2">&quot;clust_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">clust_id</span><span class="p">)</span>
+            <span class="n">adata_to_subset</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">adata_to_get_clusters</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">cluster_key</span><span class="p">]</span> <span class="o">==</span> <span class="n">clust_id</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">pseudobulk_by_feature_df</span><span class="p">[</span><span class="n">rname</span><span class="p">]</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">adata_to_subset</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">adata_to_get_clusters</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">cluster_key</span><span class="p">]</span> <span class="o">==</span> <span class="n">clust_id</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)))</span>
+            
+    <span class="k">return</span> <span class="n">pseudobulk_by_feature_df</span></div>
+
+
+<div class="viewcode-block" id="get_closest_prototype_to_pseudobulk">
+<a class="viewcode-back" href="../../scATAcat.html#scATAcat.pseudobulk_functions.get_closest_prototype_to_pseudobulk">[docs]</a>
+<span class="k">def</span> <span class="nf">get_closest_prototype_to_pseudobulk</span><span class="p">(</span><span class="n">pseudobulk_prototype_centroid_euclidean_dis_df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Calculates the distances between prototypes and pseudobulks and returns the closest prototype to a pseudobulk.</span>
+<span class="sd">    </span>
+<span class="sd">    Paramaters:</span>
+<span class="sd">    - pseudobulk_prototype_centroid_euclidean_dis_df (Pandas Dataframe): square matrix of pairwise distances between prorootype centroids and pseudobulk samples. Can be obtained by running plot_pca_dist_cent_heatmap() function.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">     - {pseudobulk:closest_prototype} dictionary  </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c1"># define a dict to keep pbulk: closest bulk pairs</span>
+    <span class="n">pbulk_closest_prototype_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># we hardcoded &quot;pbulk&quot; suffix for centorid matrix. now first subset the df to pbulks</span>
+    <span class="k">for</span> <span class="n">pbulk</span> <span class="ow">in</span> <span class="n">pseudobulk_prototype_centroid_euclidean_dis_df</span><span class="p">[</span><span class="n">pseudobulk_prototype_centroid_euclidean_dis_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;pbulk&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+        <span class="c1"># order by the smallest distance</span>
+        <span class="n">smallest_dist_ordered</span><span class="o">=</span> <span class="n">pseudobulk_prototype_centroid_euclidean_dis_df</span><span class="o">.</span><span class="n">nsmallest</span><span class="p">(</span><span class="n">pseudobulk_prototype_centroid_euclidean_dis_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pbulk</span><span class="p">)</span>
+        <span class="c1"># get the closest protoype that is not pbulk</span>
+        <span class="n">closest_prototype_id</span> <span class="o">=</span> <span class="n">smallest_dist_ordered</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">smallest_dist_ordered</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;pbulk&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">,:]</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">pbulk_closest_prototype_dict</span><span class="p">[</span><span class="n">pbulk</span><span class="p">]</span><span class="o">=</span><span class="n">closest_prototype_id</span>
+        
+    <span class="k">return</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">pbulk_closest_prototype_dict</span><span class="o">.</span><span class="n">items</span><span class="p">())))</span></div>
+
+
+<div class="viewcode-block" id="get_closest_pseubulk_to_prototype">
+<a class="viewcode-back" href="../../scATAcat.html#scATAcat.pseudobulk_functions.get_closest_pseubulk_to_prototype">[docs]</a>
+<span class="k">def</span> <span class="nf">get_closest_pseubulk_to_prototype</span><span class="p">(</span><span class="n">pseudobulk_prototype_centroid_euclidean_dis_df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Calculates the distances between pseudobulks and prototypes and returns the closest pseudobulk to a prototype.</span>
+<span class="sd">        </span>
+<span class="sd">    Paramaters:</span>
+<span class="sd">    - pseudobulk_prototype_centroid_euclidean_dis_df (Pandas Dataframe): square matrix of pairwise distances between prorootype centroids and pseudobulk samples. Can be obtained by running plot_pca_dist_cent_heatmap() function.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        - {prototype:closest_pseudobulk} dictionary  </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c1"># define a dict to keep pbulk: closest bulk pairs</span>
+    <span class="n">prototype_closest_pbulk_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># we hardcoded &quot;pbulk&quot; suffix for centorix matrix. now first subset the df to pbulks</span>
+    <span class="k">for</span> <span class="n">prototype</span> <span class="ow">in</span> <span class="n">pseudobulk_prototype_centroid_euclidean_dis_df</span><span class="p">[</span><span class="n">pseudobulk_prototype_centroid_euclidean_dis_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;pbulk&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+        <span class="c1"># order by the smallest distance</span>
+        <span class="n">smallest_dist_ordered</span><span class="o">=</span> <span class="n">pseudobulk_prototype_centroid_euclidean_dis_df</span><span class="o">.</span><span class="n">nsmallest</span><span class="p">(</span><span class="n">pseudobulk_prototype_centroid_euclidean_dis_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">prototype</span><span class="p">)</span>
+        <span class="c1"># get the closest prototype that is not pbulk</span>
+        <span class="n">closest_pbulk_id</span> <span class="o">=</span> <span class="n">smallest_dist_ordered</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">smallest_dist_ordered</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;pbulk&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">,:]</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">prototype_closest_pbulk_dict</span><span class="p">[</span><span class="n">bulk</span><span class="p">]</span><span class="o">=</span><span class="n">closest_pbulk_id</span>
+        
+    <span class="k">return</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">prototype_closest_pbulk_dict</span><span class="o">.</span><span class="n">items</span><span class="p">())))</span></div>
+
+
+<div class="viewcode-block" id="get_pseudobulk_to_prototype_distance">
+<a class="viewcode-back" href="../../scATAcat.html#scATAcat.pseudobulk_functions.get_pseudobulk_to_prototype_distance">[docs]</a>
+<span class="k">def</span> <span class="nf">get_pseudobulk_to_prototype_distance</span><span class="p">(</span><span class="n">pseudobulk_prototype_centroid_euclidean_dis_df</span><span class="p">,</span> <span class="n">pbulk_to_prototype</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Transfers Euclidean distances to scaled similarities based on pseudobulk and bulk samples&#39; perspectives.</span>
+<span class="sd">    This function takes a square matrix of pairwise Euclidean distances between bulk centroids and pseudobulk samples.</span>
+<span class="sd">    It then scales the distances to the minimum and returns a DataFrame representing the percentage contributions for each sample.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    - pseudobulk_prototype_centroid_euclidean_dis_df (DataFrame): A square matrix of pairwise distances between bulk centroids and pseudobulk samples.</span>
+<span class="sd">    - pbulk_to_prototype (bool, optional): If True, the distances are determined by the prorotypes&#39; perspective.</span>
+<span class="sd">                                           If False, the distances are determined by the pseudobulk samples&#39; perspective. Default is True.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">pbulk_to_prototype</span><span class="o">==</span><span class="kc">False</span><span class="p">:</span>
+        <span class="n">per_cont_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">per_cont_df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">pseudobulk_prototype_centroid_euclidean_dis_df</span><span class="p">[</span><span class="n">pseudobulk_prototype_centroid_euclidean_dis_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;pbulk&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+        <span class="k">for</span> <span class="n">prototype</span> <span class="ow">in</span> <span class="n">pseudobulk_prototype_centroid_euclidean_dis_df</span><span class="p">[</span><span class="n">pseudobulk_prototype_centroid_euclidean_dis_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;pbulk&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+            <span class="n">sub_df</span> <span class="o">=</span>  <span class="n">pseudobulk_prototype_centroid_euclidean_dis_df</span><span class="p">[[</span><span class="n">prototype</span><span class="p">]]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">pseudobulk_prototype_centroid_euclidean_dis_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;pbulk&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">,:]</span>
+            <span class="n">sub_df_scaled</span> <span class="o">=</span> <span class="n">sub_df</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span><span class="n">sub_df</span>
+            <span class="n">sub_df_scaled_perc</span> <span class="o">=</span> <span class="n">sub_df_scaled</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">sub_df_scaled</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span>
+            <span class="n">per_cont_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">per_cont_df</span><span class="p">,</span><span class="n">sub_df_scaled_perc</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">join</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pbulk_to_prototype</span> <span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+        <span class="n">per_cont_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">per_cont_df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">pseudobulk_prototype_centroid_euclidean_dis_df</span><span class="p">[</span><span class="n">pseudobulk_prototype_centroid_euclidean_dis_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;pbulk&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">]</span><span class="o">.</span><span class="n">index</span>
+        <span class="k">for</span> <span class="n">prototype</span> <span class="ow">in</span> <span class="n">pseudobulk_prototype_centroid_euclidean_dis_df</span><span class="p">[</span><span class="n">pseudobulk_prototype_centroid_euclidean_dis_df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;pbulk&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+            <span class="n">sub_df</span> <span class="o">=</span>  <span class="n">pseudobulk_prototype_centroid_euclidean_dis_df</span><span class="p">[[</span><span class="n">prototype</span><span class="p">]]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">pseudobulk_prototype_centroid_euclidean_dis_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;pbulk&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="kc">False</span><span class="p">,:]</span>
+            <span class="n">sub_df_scaled</span> <span class="o">=</span> <span class="n">sub_df</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span><span class="n">sub_df</span>
+            <span class="n">sub_df_scaled_perc</span> <span class="o">=</span> <span class="n">sub_df_scaled</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">sub_df_scaled</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span>
+            <span class="n">per_cont_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">per_cont_df</span><span class="p">,</span><span class="n">sub_df_scaled_perc</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">join</span><span class="o">=</span><span class="s2">&quot;inner&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">per_cont_df</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aybuge Altay.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
