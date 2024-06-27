@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>scATAcat package &mdash; scATAcat</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="src" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            scATAcat Documentation
+              <img src="_static/logo.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">scATAcat package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-scATAcat.bulk_data_functions">scATAcat.bulk_data_functions module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#scATAcat.bulk_data_functions.generate_bulk_AnnData"><code class="docutils literal notranslate"><span class="pre">generate_bulk_AnnData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scATAcat.bulk_data_functions.generate_bulk_sparse_AnnData"><code class="docutils literal notranslate"><span class="pre">generate_bulk_sparse_AnnData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scATAcat.bulk_data_functions.preprocess_bulk_adata"><code class="docutils literal notranslate"><span class="pre">preprocess_bulk_adata()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-scATAcat.helper_functions">scATAcat.helper_functions module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#scATAcat.helper_functions.add_binary_layer"><code class="docutils literal notranslate"><span class="pre">add_binary_layer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scATAcat.helper_functions.apply_PCA"><code class="docutils literal notranslate"><span class="pre">apply_PCA()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scATAcat.helper_functions.apply_TFIDF_sparse"><code class="docutils literal notranslate"><span class="pre">apply_TFIDF_sparse()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scATAcat.helper_functions.overlap_vars"><code class="docutils literal notranslate"><span class="pre">overlap_vars()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scATAcat.helper_functions.preproces_sc_matrix"><code class="docutils literal notranslate"><span class="pre">preproces_sc_matrix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scATAcat.helper_functions.preprocessing_libsize_norm_log2"><code class="docutils literal notranslate"><span class="pre">preprocessing_libsize_norm_log2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scATAcat.helper_functions.preprocessing_standardization"><code class="docutils literal notranslate"><span class="pre">preprocessing_standardization()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scATAcat.helper_functions.sparse_mean_variance_axis"><code class="docutils literal notranslate"><span class="pre">sparse_mean_variance_axis()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scATAcat.helper_functions.subset_adata_obs"><code class="docutils literal notranslate"><span class="pre">subset_adata_obs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scATAcat.helper_functions.subset_adata_vars"><code class="docutils literal notranslate"><span class="pre">subset_adata_vars()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-scATAcat.plot_functions">scATAcat.plot_functions module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#scATAcat.plot_functions.cell_feature_statistics"><code class="docutils literal notranslate"><span class="pre">cell_feature_statistics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scATAcat.plot_functions.plot_cell_statistics"><code class="docutils literal notranslate"><span class="pre">plot_cell_statistics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scATAcat.plot_functions.plot_feature_statistics"><code class="docutils literal notranslate"><span class="pre">plot_feature_statistics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scATAcat.plot_functions.plot_gene_activity_of_UMAP"><code class="docutils literal notranslate"><span class="pre">plot_gene_activity_of_UMAP()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scATAcat.plot_functions.plot_pca_dist_cent_heatmap"><code class="docutils literal notranslate"><span class="pre">plot_pca_dist_cent_heatmap()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scATAcat.plot_functions.plot_pca_dist_heatmap"><code class="docutils literal notranslate"><span class="pre">plot_pca_dist_heatmap()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scATAcat.plot_functions.projection"><code class="docutils literal notranslate"><span class="pre">projection()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-scATAcat.pseudobulk_functions">scATAcat.pseudobulk_functions module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#scATAcat.pseudobulk_functions.get_closest_prototype_to_pseudobulk"><code class="docutils literal notranslate"><span class="pre">get_closest_prototype_to_pseudobulk()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scATAcat.pseudobulk_functions.get_closest_pseubulk_to_prototype"><code class="docutils literal notranslate"><span class="pre">get_closest_pseubulk_to_prototype()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scATAcat.pseudobulk_functions.get_pseudobulk_matrix"><code class="docutils literal notranslate"><span class="pre">get_pseudobulk_matrix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scATAcat.pseudobulk_functions.get_pseudobulk_matrix_ext"><code class="docutils literal notranslate"><span class="pre">get_pseudobulk_matrix_ext()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scATAcat.pseudobulk_functions.get_pseudobulk_to_prototype_distance"><code class="docutils literal notranslate"><span class="pre">get_pseudobulk_to_prototype_distance()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-scATAcat">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">scATAcat Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">src</a></li>
+      <li class="breadcrumb-item active">scATAcat package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/scATAcat.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="scatacat-package">
+<h1>scATAcat package<a class="headerlink" href="#scatacat-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-scATAcat.bulk_data_functions">
+<span id="scatacat-bulk-data-functions-module"></span><h2>scATAcat.bulk_data_functions module<a class="headerlink" href="#module-scATAcat.bulk_data_functions" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="scATAcat.bulk_data_functions.generate_bulk_AnnData">
+<span class="sig-prename descclassname"><span class="pre">scATAcat.bulk_data_functions.</span></span><span class="sig-name descname"><span class="pre">generate_bulk_AnnData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bulk_df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scATAcat/bulk_data_functions.html#generate_bulk_AnnData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scATAcat.bulk_data_functions.generate_bulk_AnnData" title="Link to this definition"></a></dt>
+<dd><p>Generate AnnData object from DataFrame.</p>
+<p>Parameters:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>bulk_df (DataFrame): Dataframe of prototype data:</dt><dd><ul>
+<li><p>columns: cell types / samples</p></li>
+<li><p>rows: featues (cCREs)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Returns:</p>
+<ul class="simple">
+<li><p>AnnData of prototypes.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scATAcat.bulk_data_functions.generate_bulk_sparse_AnnData">
+<span class="sig-prename descclassname"><span class="pre">scATAcat.bulk_data_functions.</span></span><span class="sig-name descname"><span class="pre">generate_bulk_sparse_AnnData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bulk_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cCREs'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cell_types'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scATAcat/bulk_data_functions.html#generate_bulk_sparse_AnnData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scATAcat.bulk_data_functions.generate_bulk_sparse_AnnData" title="Link to this definition"></a></dt>
+<dd><p>Generate AnnData object from DataFrame. The count matrix is sparse.</p>
+<p>Parameters:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>bulk_df (DataFrame): Dataframe of prototype data:</dt><dd><ul>
+<li><p>columns: cell types / samples</p></li>
+<li><p>rows: featues (cCREs)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Returns:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>AnnData of prototypes.</p></li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scATAcat.bulk_data_functions.preprocess_bulk_adata">
+<span class="sig-prename descclassname"><span class="pre">scATAcat.bulk_data_functions.</span></span><span class="sig-name descname"><span class="pre">preprocess_bulk_adata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bulk_adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_chrY</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cCREs'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scATAcat/bulk_data_functions.html#preprocess_bulk_adata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scATAcat.bulk_data_functions.preprocess_bulk_adata" title="Link to this definition"></a></dt>
+<dd><p>Preprocess a prototype count matrix in AnnData format.
+This function preprocesses a prototype count matrix in AnnData format by optionally removing features associated with chromosome Y.</p>
+<p>If <cite>copy</cite> is True, a new AnnData object with the preprocessed data is returned, leaving the original AnnData object unchanged.
+If <cite>copy</cite> is False, the original AnnData object is modified in place, and the preprocessed AnnData object is returned.</p>
+<p>Parameters:</p>
+<ul class="simple">
+<li><p>bulk_adata (AnnData): An AnnData object containing the prototype count matrix.</p></li>
+<li><p>remove_chrY (bool, optional): Whether to remove features associated with chromosome Y. Default is True.</p></li>
+<li><p>var_key (str, optional): Key for accessing feature information in AnnData.var. Default is ‘cCREs’.</p></li>
+<li><p>copy (bool, optional): If True, a copy of the AnnData object is returned; if False, the original AnnData object is modified. Default is False.</p></li>
+</ul>
+<p>Returns:</p>
+<ul class="simple">
+<li><p>AnnData: The preprocessed AnnData object.</p></li>
+</ul>
+</dd></dl>
+
+</section>
+<section id="module-scATAcat.helper_functions">
+<span id="scatacat-helper-functions-module"></span><h2>scATAcat.helper_functions module<a class="headerlink" href="#module-scATAcat.helper_functions" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="scATAcat.helper_functions.add_binary_layer">
+<span class="sig-prename descclassname"><span class="pre">scATAcat.helper_functions.</span></span><span class="sig-name descname"><span class="pre">add_binary_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">binary_layer_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'binary'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scATAcat/helper_functions.html#add_binary_layer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scATAcat.helper_functions.add_binary_layer" title="Link to this definition"></a></dt>
+<dd><p>Convert the count matrix associated with the AnnData object to binary and adds it as a new layer.</p>
+<p>This function converts the count matrix in the AnnData object to binary, where non-zero values are set to 1.</p>
+<p>The resulting binary matrix is added as a new layer in the AnnData object using the specified key.</p>
+<p>Parameters:</p>
+<ul class="simple">
+<li><p>adata (AnnData): An AnnData object containing the sc count matrix.</p></li>
+<li><p>binary_layer_key (str, optional): The key for the binary layer to be added. Default is “binary”.</p></li>
+</ul>
+<p>Returns:</p>
+<ul class="simple">
+<li><p>AnnData: The AnnData object with the binary layer added.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scATAcat.helper_functions.apply_PCA">
+<span class="sig-prename descclassname"><span class="pre">scATAcat.helper_functions.</span></span><span class="sig-name descname"><span class="pre">apply_PCA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'TF_logIDF'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">svd_solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'arpack'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scATAcat/helper_functions.html#apply_PCA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scATAcat.helper_functions.apply_PCA" title="Link to this definition"></a></dt>
+<dd><p>Wrapper around scanpy.tl.pca to enable applying scanpy.tl.pca function to a specified layer.</p>
+<p>adds the _pca, _components, <a href="#id1"><span class="problematic" id="id2">explained_variance_ratio_</span></a>, <a href="#id3"><span class="problematic" id="id4">explained_variance_</span></a>  to adata object</p>
+<p>see scanpy documentaion for details: <a class="reference external" href="https://scanpy.readthedocs.io/en/latest/generated/scanpy.tl.pca.html#scanpy-tl-pca">https://scanpy.readthedocs.io/en/latest/generated/scanpy.tl.pca.html#scanpy-tl-pca</a></p>
+<p>Parameters:</p>
+<ul class="simple">
+<li><p>adata (AnnData):  An AnnData object containing the sc count matrix.</p></li>
+<li><p>layer_key: The key for accessing the layer to which PCA is applied. Default is “TF_logIDF”.</p></li>
+</ul>
+<p>Returns:</p>
+<ul class="simple">
+<li><p>AnnData: The AnnData object with the TF-log(IDF) normalized layer added.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scATAcat.helper_functions.apply_TFIDF_sparse">
+<span class="sig-prename descclassname"><span class="pre">scATAcat.helper_functions.</span></span><span class="sig-name descname"><span class="pre">apply_TFIDF_sparse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">binary_layer_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'binary'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">TFIDF_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'TF_logIDF'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scATAcat/helper_functions.html#apply_TFIDF_sparse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scATAcat.helper_functions.apply_TFIDF_sparse" title="Link to this definition"></a></dt>
+<dd><p>Apply Term Frequency - Inverse Document Frequency TF-log(IDF) normalization to the binary layer of the AnnData object.</p>
+<p>If the binary layer is not present, it calculates and adds the binary layer using the specified key.</p>
+<p>Additionally, if cell and feature statistics are not available, it calculates them using the binary layer.</p>
+<p>Parameters:</p>
+<ul class="simple">
+<li><p>adata (AnnData):  An AnnData object containing the sc count matrix.</p></li>
+<li><p>binary_layer_key (str): The key for accessing the binary layer. Default is “binary”.</p></li>
+<li><p>TFIDF_key (str): The key for the TFIDF normalized matrix layer to be added. Default is “TF_logIDF”.</p></li>
+</ul>
+<p>Returns:</p>
+<ul class="simple">
+<li><p>AnnData: The AnnData object with the TF-log(IDF) normalized layer added.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scATAcat.helper_functions.overlap_vars">
+<span class="sig-prename descclassname"><span class="pre">scATAcat.helper_functions.</span></span><span class="sig-name descname"><span class="pre">overlap_vars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adata2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scATAcat/helper_functions.html#overlap_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scATAcat.helper_functions.overlap_vars" title="Link to this definition"></a></dt>
+<dd><p>Generic function to get shared variables between two AnnData objects.</p>
+<p>Parameters:</p>
+<ul class="simple">
+<li><p>adata1 (AnnData): An AnnData object containing the sc count matrix.</p></li>
+<li><p>adata2 (AnnData): An AnnData object containing the sc count matrix.</p></li>
+</ul>
+<p>Returns:</p>
+<ul class="simple">
+<li><p>List: List of shared variables.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scATAcat.helper_functions.preproces_sc_matrix">
+<span class="sig-prename descclassname"><span class="pre">scATAcat.helper_functions.</span></span><span class="sig-name descname"><span class="pre">preproces_sc_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell_cutoff_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">80000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_chrY</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cCREs'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scATAcat/helper_functions.html#preproces_sc_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scATAcat.helper_functions.preproces_sc_matrix" title="Link to this definition"></a></dt>
+<dd><p>Preprocess a sc count matrix in AnnData format.</p>
+<p>This function preprocesses a single-cell count matrix in AnnData format by applying the following steps:</p>
+<ol class="arabic simple">
+<li><p>Filters cells based on the number of features per cell using the specified cutoffs.</p></li>
+<li><p>Filters features based on the number of cells per feature using the specified cutoff.</p></li>
+<li><p>Optionally removes features associated with chromosome Y.</p></li>
+</ol>
+<p>If <cite>copy</cite> is True, a new AnnData object with the preprocessed data is returned, leaving the original AnnData object unchanged.
+If <cite>copy</cite> is False, the original AnnData object is modified in place, and the preprocessed AnnData object is returned.</p>
+<p>Parameters:</p>
+<ul class="simple">
+<li><p>adata (AnnData): An AnnData object containing the sc count matrix.</p></li>
+<li><p>cell_cutoff (int, optional): Minimum number of features required per cell. Default is 1000.</p></li>
+<li><p>cell_cutoff_max (int, optional): Maximum number of features allowed per cell. Default is 80000.</p></li>
+<li><p>feature_cutoff (int, optional): Minimum number of cells required per feature. Default is 3.</p></li>
+<li><p>remove_chrY (bool, optional): Whether to remove features associated with chromosome Y. Default is True.</p></li>
+<li><p>var_key (str, optional): Key for accessing feature information in AnnData.var. Default is ‘cCREs’.</p></li>
+<li><p>copy (bool, optional): If True, a copy of the AnnData object is returned; if False, the original AnnData object is modified. Default is False.</p></li>
+</ul>
+<p>Returns:</p>
+<ul class="simple">
+<li><p>AnnData: The preprocessed AnnData object.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scATAcat.helper_functions.preprocessing_libsize_norm_log2">
+<span class="sig-prename descclassname"><span class="pre">scATAcat.helper_functions.</span></span><span class="sig-name descname"><span class="pre">preprocessing_libsize_norm_log2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scATAcat/helper_functions.html#preprocessing_libsize_norm_log2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scATAcat.helper_functions.preprocessing_libsize_norm_log2" title="Link to this definition"></a></dt>
+<dd><p>Perform libray-size normalization &amp; log2 transformation on the Anndata object.</p>
+<p>Normalized and log2 transformed matrix is added as a layer with keyword “libsize_norm_log2”.</p>
+<p>Parameters:</p>
+<ul class="simple">
+<li><p>adata (AnnData): An AnnData object containing the sc count matrix.</p></li>
+</ul>
+<p>Returns:</p>
+<ul class="simple">
+<li><p>AnnData: The AnnData object with the libsize_norm_log2 normalized layer added.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scATAcat.helper_functions.preprocessing_standardization">
+<span class="sig-prename descclassname"><span class="pre">scATAcat.helper_functions.</span></span><span class="sig-name descname"><span class="pre">preprocessing_standardization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_layer_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'libsize_norm_log2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_layer_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'libsize_norm_log2_std'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">std_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">std_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zero_center</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scATAcat/helper_functions.html#preprocessing_standardization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scATAcat.helper_functions.preprocessing_standardization" title="Link to this definition"></a></dt>
+<dd><p>Perform z-normalization at the feature level. If the standard deviation (std) and mean are already included in the AnnData (adata), the function applies normalization directly. In the absence of these variables, it calculates and adds the standard deviation and mean to the AnnData using the specified layer key (layer_key). Subsequently, it performs z-normalization.</p>
+<p>Additionally, if alternative <a href="#id5"><span class="problematic" id="id6">std_</span></a> and <a href="#id7"><span class="problematic" id="id8">mean_</span></a> matrices/arrays are provided, these values are utilized for the calculations instead of assuming zero mean and unit variance.</p>
+<p>Parameters:</p>
+<ul class="simple">
+<li><p>adata (AnnData): An AnnData object containing the sc count matrix.</p></li>
+<li><p>input_layer_key (str): The key for accessing the layer to which standardization is applied. Default is “libsize_norm_log2”.</p></li>
+<li><p>output_layer_key (str): The key for the standardized layer to be added. Default is “libsize_norm_log2_std”.</p></li>
+<li><p>std_key (str): The key for the standard deviation to be added. If None, “feature_std” is added as key.</p></li>
+<li><p>mean_key (str): The key for the mean to be added. If None, “feature_std” is added as key.</p></li>
+<li><p><a href="#id9"><span class="problematic" id="id10">std_</span></a> (numpy array): The key for accessing the standard deviation. If specified, it is utilized for the  z-score calculations instead of assuming zero mean and unit variance. Default is None.</p></li>
+<li><p><a href="#id11"><span class="problematic" id="id12">mean_</span></a> (numpy array): The key for accessing the mean. If specified, it is utilized for the  z-score calculations instead of assuming zero mean and unit variance. Default is None.</p></li>
+</ul>
+<p>Returns:</p>
+<ul class="simple">
+<li><p>AnnData: The AnnData object with the libsize_norm_log2_std standardized layer added.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scATAcat.helper_functions.sparse_mean_variance_axis">
+<span class="sig-prename descclassname"><span class="pre">scATAcat.helper_functions.</span></span><span class="sig-name descname"><span class="pre">sparse_mean_variance_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mtx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">spmatrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scATAcat/helper_functions.html#sparse_mean_variance_axis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scATAcat.helper_functions.sparse_mean_variance_axis" title="Link to this definition"></a></dt>
+<dd><p>This code and internal functions are based on sklearns
+<cite>sparsefuncs.mean_variance_axis</cite>.</p>
+<p>Modifications:</p>
+<ul class="simple">
+<li><p>allow deciding on the output type, which can increase accuracy when calculating the mean and variance of 32bit floats.</p></li>
+<li><p>This doesn’t currently implement support for null values, but could.</p></li>
+<li><p>Uses numba not cython</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scATAcat.helper_functions.subset_adata_obs">
+<span class="sig-prename descclassname"><span class="pre">scATAcat.helper_functions.</span></span><span class="sig-name descname"><span class="pre">subset_adata_obs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scATAcat/helper_functions.html#subset_adata_obs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scATAcat.helper_functions.subset_adata_obs" title="Link to this definition"></a></dt>
+<dd><p>This function subsets the observations (cells) of the AnnData object based on the provided list.</p>
+<p>The resulting AnnData object includes only the variables specified in the <cite>vars_list</cite>.</p>
+<p>Parameters:</p>
+<ul class="simple">
+<li><p>adata (AnnData): An AnnData object containing the sc count matrix.</p></li>
+<li><p>vars_list (list): A list of observations names (cells) to retain in the subset.</p></li>
+<li><p><a href="#id13"><span class="problematic" id="id14">copy_</span></a> (bool, optional): If True, a copy of the AnnData object is returned; if False, the original AnnData object is modified. Default is True.</p></li>
+</ul>
+<p>Returns:</p>
+<ul class="simple">
+<li><p>AnnData: The AnnData object with a subset of variables.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scATAcat.helper_functions.subset_adata_vars">
+<span class="sig-prename descclassname"><span class="pre">scATAcat.helper_functions.</span></span><span class="sig-name descname"><span class="pre">subset_adata_vars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vars_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scATAcat/helper_functions.html#subset_adata_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scATAcat.helper_functions.subset_adata_vars" title="Link to this definition"></a></dt>
+<dd><p>Subset the variables (features) of an AnnData object based on a specified list.</p>
+<p>The resulting AnnData object includes only the variables specified in the <cite>vars_list</cite>.</p>
+<p>Parameters:</p>
+<ul class="simple">
+<li><p>adata (AnnData): An AnnData object containing the sc count matrix.</p></li>
+<li><p>vars_list (list): A list of variable names (features) to retain in the subset.</p></li>
+<li><p><a href="#id15"><span class="problematic" id="id16">copy_</span></a> (bool, optional): If True, a copy of the AnnData object is returned; if False, the original AnnData object is modified. Default is True.</p></li>
+</ul>
+<p>Returns:</p>
+<ul class="simple">
+<li><p>AnnData: The AnnData object with a subset of variables.</p></li>
+</ul>
+</dd></dl>
+
+</section>
+<section id="module-scATAcat.plot_functions">
+<span id="scatacat-plot-functions-module"></span><h2>scATAcat.plot_functions module<a class="headerlink" href="#module-scATAcat.plot_functions" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="scATAcat.plot_functions.cell_feature_statistics">
+<span class="sig-prename descclassname"><span class="pre">scATAcat.plot_functions.</span></span><span class="sig-name descname"><span class="pre">cell_feature_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">binary_layer_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'binary'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scATAcat/plot_functions.html#cell_feature_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scATAcat.plot_functions.cell_feature_statistics" title="Link to this definition"></a></dt>
+<dd><p>Calculates the cell and feature statistics and adds them to AnnData.</p>
+<p>Parameters:</p>
+<ul class="simple">
+<li><p>adata (AnnData): An AnnData object containing the sc count matrix.</p></li>
+<li><p>binary_layer_key (str, optional): The key for accessing the layer to calculates the cell and feature statistics, Default ‘binary’.</p></li>
+</ul>
+<p>Returns:</p>
+<dl class="simple">
+<dt>AnnData with the following features:</dt><dd><ul class="simple">
+<li><p>num_cell_per_feature: how many cells have a count for a feature? / number of cells sharing a feature</p></li>
+<li><p>num_feature_per_cell : how many features are open for a cell? / number of features in a cell</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scATAcat.plot_functions.plot_cell_statistics">
+<span class="sig-prename descclassname"><span class="pre">scATAcat.plot_functions.</span></span><span class="sig-name descname"><span class="pre">plot_cell_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">binary_layer_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'binary'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edgecolor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlabel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylabel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dpi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scATAcat/plot_functions.html#plot_cell_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scATAcat.plot_functions.plot_cell_statistics" title="Link to this definition"></a></dt>
+<dd><p>Plots the cell statistics. In simpler terms, this method shows how densely features are occupied by cells.</p>
+<p>It provides a visual representation of the distribution and concentration of these cells within the features.</p>
+<p>Parameters:</p>
+<ul class="simple">
+<li><p>adata (AnnData): An AnnData object containing the sc count matrix.</p></li>
+<li><p>binary_layer_key (str, optional): The key for accessing the layer to calculate the cell and feature statistics, Default ‘binary’.</p></li>
+<li><p>save (bool, optional): Whether or not to save the figure, Default False.</p></li>
+<li><p>save_dir (str, optional): Directory to sace the figure. Default None and saves to current directory.</p></li>
+<li><p>dpi (str, optional): resolution of the figure to save in dots per inch</p></li>
+<li><dl class="simple">
+<dt>kwds</dt><dd><p>Are passed to <code class="xref py py-func docutils literal notranslate"><span class="pre">matplotlib.pyplot.hist()</span></code>.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Returns:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>AnnData obejct with following features: </dt><dd><ul>
+<li><p>num_cell_per_feature (int): how many cells have a count for a feature? / number of cells sharing a feature</p></li>
+<li><p>num_feature_per_cell : how many features are open for a cell? / number of features in a cell</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Cell statistic plot</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scATAcat.plot_functions.plot_feature_statistics">
+<span class="sig-prename descclassname"><span class="pre">scATAcat.plot_functions.</span></span><span class="sig-name descname"><span class="pre">plot_feature_statistics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">binary_layer_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'binary'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edgecolor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlabel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylabel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dpi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_size_inches</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(15,</span> <span class="pre">15)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scATAcat/plot_functions.html#plot_feature_statistics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scATAcat.plot_functions.plot_feature_statistics" title="Link to this definition"></a></dt>
+<dd><p>Plots the feature statistics. In simpler terms, this method shows how densely cells are occupied by features.</p>
+<p>It provides a visual representation of the distribution and concentration of these features within the cells.</p>
+<p>Parameters:</p>
+<ul class="simple">
+<li><p>adata (AnnData): An AnnData object containing the sc count matrix.</p></li>
+<li><p>binary_layer_key (str, optional): The key for accessing the layer to calculate the cell and feature statistics, Default ‘binary’.</p></li>
+<li><p>save (bool, optional): Whether or not to save the figure, Default False.</p></li>
+<li><p>save_dir (str, optional): Directory to sace the figure. Default None and saves to current directory.</p></li>
+<li><p>dpi (str, optional): resolution of the figure to save in dots per inch</p></li>
+<li><dl class="simple">
+<dt>kwds</dt><dd><p>Are passed to <code class="xref py py-func docutils literal notranslate"><span class="pre">matplotlib.pyplot.hist()</span></code>.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Returns:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>AnnData obejct with following features: </dt><dd><ul>
+<li><p>num_cell_per_feature (int): how many cells have a count for a feature? / number of cells sharing a feature</p></li>
+<li><p>num_feature_per_cell : how many features are open for a cell? / number of features in a cell</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Feature statistic plot</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scATAcat.plot_functions.plot_gene_activity_of_UMAP">
+<span class="sig-prename descclassname"><span class="pre">scATAcat.plot_functions.</span></span><span class="sig-name descname"><span class="pre">plot_gene_activity_of_UMAP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gene_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activity_matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">22</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scATAcat/plot_functions.html#plot_gene_activity_of_UMAP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scATAcat.plot_functions.plot_gene_activity_of_UMAP" title="Link to this definition"></a></dt>
+<dd><p>Plot UMAP embedding of the given genes’ activity across single cells.</p>
+<p>This function saves a Matplotlib figure to the specified file path.</p>
+<p>Parameters:</p>
+<ul class="simple">
+<li><p>adata (AnnData): An AnnData object containing the sc count matrix.</p></li>
+<li><p>gene_name (str): Name of the gene.</p></li>
+<li><p>activity_matrix (DataFrame): Gene activity score of the gene across cells. (Rows:cells x columns:genes (str))</p></li>
+<li><p>out_path (str): The path to the output directory.</p></li>
+<li><p>point_size: Size of the cell points displayed on the UMAP.</p></li>
+<li><p>cmap: Color map object passed to sc.pl.umap()</p></li>
+</ul>
+<p>Returns:</p>
+<ul class="simple">
+<li><p>None</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scATAcat.plot_functions.plot_pca_dist_cent_heatmap">
+<span class="sig-prename descclassname"><span class="pre">scATAcat.plot_functions.</span></span><span class="sig-name descname"><span class="pre">plot_pca_dist_cent_heatmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trained_bulk_pca_df_w_labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">projected_pseudobulk_pca_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Blues_r'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scATAcat/plot_functions.html#plot_pca_dist_cent_heatmap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scATAcat.plot_functions.plot_pca_dist_cent_heatmap" title="Link to this definition"></a></dt>
+<dd><p>Plot a heatmap visualizing the pairwise Euclidean distances between centroids of prorotypes and pseudobulks.</p>
+<blockquote>
+<div><p>This function combines PCA components of projected pseudobulk data and trained prototype data, calculates centroids for trained prototype data, and plots a heatmap using Seaborn’s clustermap.</p>
+</div></blockquote>
+<p>Parameters:</p>
+<ul class="simple">
+<li><p>trained_bulk_pca_df_w_labels (DataFrame): DataFrame containing PCA components of trained bulk data with labels.</p></li>
+<li><p>projected_pseudobulk_pca_df (DataFrame): DataFrame containing PCA components of projected pseudobulk data.</p></li>
+<li><p>cmap (str, optional): Colormap for the heatmap. Default is ‘Blues_r’.</p></li>
+</ul>
+<p>Returns:
+- tuple: A tuple containing:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>sns.ClusterGrid: Seaborn ClusterGrid object representing the heatmap.</p></li>
+<li><p>DataFrame: DataFrame containing the pairwise Euclidean distances.</p></li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scATAcat.plot_functions.plot_pca_dist_heatmap">
+<span class="sig-prename descclassname"><span class="pre">scATAcat.plot_functions.</span></span><span class="sig-name descname"><span class="pre">plot_pca_dist_heatmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trained_bulk_pca_df_w_labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">projected_pseudobulk_pca_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Blues_r'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scATAcat/plot_functions.html#plot_pca_dist_heatmap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scATAcat.plot_functions.plot_pca_dist_heatmap" title="Link to this definition"></a></dt>
+<dd><p>Plot a heatmap visualizing the pairwise Euclidean distances of prototypes and pseudobulks.</p>
+<p>This function combines PCA components of projected pseudobulk data and trained prototype data, calculates the pairwise Euclidean distances, and plots a heatmap using Seaborn’s clustermap.</p>
+<p>Parameters:</p>
+<ul class="simple">
+<li><p>trained_bulk_pca_df_w_labels (DataFrame): DataFrame containing PCA components of trained prototypes with labels.</p></li>
+<li><p>projected_pseudobulk_pca_df (DataFrame): DataFrame containing PCA components of projected pseudobulk data.</p></li>
+<li><p>cmap (str, optional): Colormap for the heatmap. Default is ‘Blues_r’.</p></li>
+</ul>
+<p>Returns:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>tuple: A tuple containing:</dt><dd><ul>
+<li><p>sns.ClusterGrid: Seaborn ClusterGrid object representing the heatmap.</p></li>
+<li><p>DataFrame: DataFrame containing the pairwise Euclidean distances.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scATAcat.plot_functions.projection">
+<span class="sig-prename descclassname"><span class="pre">scATAcat.plot_functions.</span></span><span class="sig-name descname"><span class="pre">projection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prototype_adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudobulk_adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prototype_layer_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'libsize_norm_log2_std'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudobulk_layer_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'libsize_norm_log2_bulk_scaled'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prototype_label_font_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">18</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudobulk_label_font_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">18</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prototype_colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudobulk_colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'clustering_color'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudobulk_point_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">180</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prototype_point_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">150</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudobulk_point_alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prototype_point_alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prototype_legend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pseudobulk_legend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dpi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig_size_inches</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(15,</span> <span class="pre">15)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scATAcat/plot_functions.html#projection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scATAcat.plot_functions.projection" title="Link to this definition"></a></dt>
+<dd><p>Custom 3D PCA projection of prototypes and pseudobulks.</p>
+<p>Parameters:</p>
+<ul class="simple">
+<li><p>prototype_adata (AnnData): An AnnData object containing the prototype count matrix.</p></li>
+<li><p>pseudobulk_adata(AnnData): An AnnData object containing the pseudobulk count matrix.</p></li>
+<li><p>prototype_layer_key (str): The key for accessing the prototype layer for projection. Default ‘libsize_norm_log2_std’.</p></li>
+<li><p>pseudobulk_layer_key (str): The key for accessing the pseudobulk layer for projection. Default ‘libsize_norm_log2_bulk_scaled’</p></li>
+<li><p>prototype_label_font_size (int): Font size of the prototype labels on the PCA projection. If set to 0, no labels will be plotted. Default 18.</p></li>
+<li><p>pseudobulk_label_font_size (int): Font size of the pseudobulk labels on the PCA projection. If set to 0, no labels will be plotted. Default 18.</p></li>
+<li><p>prototype_colors (List[str ]or None): A list of color codes to be used for plotting prototypes. If <cite>None</cite>, colors will be chosen by <cite>cmap</cite> parameter.</p></li>
+<li><p>cmap (str): Matplotlib colormap used to colorcode the prototypes if prototype_colors is None.</p></li>
+<li><p>pseudobulk_colors (List[str] or None): A list of color codes to be used for plotting pseudobulks. If <cite>None</cite>, colors will be determined by <cite>color_key</cite> parameter</p></li>
+<li><p>color_key (str, optional): The key for accessing the cluster colors in the sc data. If provided, the pseudobulk points will be colored based on the cluster colors they originated from.</p></li>
+<li><p>pseudobulk_point_size (int): Size of the pseudobulk point displayed on the plot. Default 180.</p></li>
+<li><p>prototype_point_size (int): Size of the prototype point displayed on the plot. Default 200.</p></li>
+<li><p>pseudobulk_point_alpha (float): Parameter controling the transparency of the plotted pseudobulks. Ranges between 0 (transparent) and 1 (opaque). Default 0.8.</p></li>
+<li><p>prototype_point_alpha (float): Parameter controling the transparency of the plotted prototypes. Ranges between 0 (transparent) and 1 (opaque). Default 0.7.</p></li>
+<li><p>prototype_legend (bool): A boolean value indicating whether or not to include prototype-related items in the legend. Deault True.</p></li>
+<li><p>pseudobulk_legend(bool): A boolean value indicating whether or not to include pseudobulk-related items in the legend. Deault True.</p></li>
+<li><p>save_path (str or None): Path where the plot should be saved. If <cite>None</cite>, the plot is not saved.</p></li>
+<li><p>dpi (int): The resolution in dots per inch. Default 300.</p></li>
+<li><p>fig_size_inches (tuple): A tuple representing the size (width, height) of the figure in inches. Default (15,15).</p></li>
+</ul>
+<p>Returns:</p>
+<ul class="simple">
+<li><p>3D PCA projection figure.</p></li>
+<li><p>PCA transformed values of prototypes.</p></li>
+<li><p>PCA transformed values of pseudbulks.</p></li>
+</ul>
+</dd></dl>
+
+</section>
+<section id="module-scATAcat.pseudobulk_functions">
+<span id="scatacat-pseudobulk-functions-module"></span><h2>scATAcat.pseudobulk_functions module<a class="headerlink" href="#module-scATAcat.pseudobulk_functions" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="scATAcat.pseudobulk_functions.get_closest_prototype_to_pseudobulk">
+<span class="sig-prename descclassname"><span class="pre">scATAcat.pseudobulk_functions.</span></span><span class="sig-name descname"><span class="pre">get_closest_prototype_to_pseudobulk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pseudobulk_prototype_centroid_euclidean_dis_df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scATAcat/pseudobulk_functions.html#get_closest_prototype_to_pseudobulk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scATAcat.pseudobulk_functions.get_closest_prototype_to_pseudobulk" title="Link to this definition"></a></dt>
+<dd><p>Calculates the distances between prototypes and pseudobulks and returns the closest prototype to a pseudobulk.</p>
+<p>Paramaters:</p>
+<ul class="simple">
+<li><p>pseudobulk_prototype_centroid_euclidean_dis_df (Pandas Dataframe): square matrix of pairwise distances between prorootype centroids and pseudobulk samples. Can be obtained by running plot_pca_dist_cent_heatmap() function.</p></li>
+</ul>
+<p>Returns:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>{pseudobulk:closest_prototype} dictionary</p></li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scATAcat.pseudobulk_functions.get_closest_pseubulk_to_prototype">
+<span class="sig-prename descclassname"><span class="pre">scATAcat.pseudobulk_functions.</span></span><span class="sig-name descname"><span class="pre">get_closest_pseubulk_to_prototype</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pseudobulk_prototype_centroid_euclidean_dis_df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scATAcat/pseudobulk_functions.html#get_closest_pseubulk_to_prototype"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scATAcat.pseudobulk_functions.get_closest_pseubulk_to_prototype" title="Link to this definition"></a></dt>
+<dd><p>Calculates the distances between pseudobulks and prototypes and returns the closest pseudobulk to a prototype.</p>
+<p>Paramaters:</p>
+<ul class="simple">
+<li><p>pseudobulk_prototype_centroid_euclidean_dis_df (Pandas Dataframe): square matrix of pairwise distances between prorootype centroids and pseudobulk samples. Can be obtained by running plot_pca_dist_cent_heatmap() function.</p></li>
+</ul>
+<dl class="simple">
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>{prototype:closest_pseudobulk} dictionary</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scATAcat.pseudobulk_functions.get_pseudobulk_matrix">
+<span class="sig-prename descclassname"><span class="pre">scATAcat.pseudobulk_functions.</span></span><span class="sig-name descname"><span class="pre">get_pseudobulk_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cluster_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'leiden'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sum'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scATAcat/pseudobulk_functions.html#get_pseudobulk_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scATAcat.pseudobulk_functions.get_pseudobulk_matrix" title="Link to this definition"></a></dt>
+<dd><p>Constructs pseudobulk by features matrix given the cluster key.</p>
+<p>Parameters:</p>
+<ul class="simple">
+<li><p>adata (AnnData): An AnnData object containing the sc count matrix.</p></li>
+<li><p>cluster_key (str, optional): The key for the cluster key from which the pseudobulk matrix is constructed. Default is “leiden”.</p></li>
+<li><dl class="simple">
+<dt>method: method to aggregate the cells:</dt><dd><ul>
+<li><p>sum: sums the feature counts across cells</p></li>
+<li><p>mean: takes the mean of the feature counts across cells</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Returns:</p>
+<ul class="simple">
+<li><p>Pandas dataframe in th shape of pseudobulk x feature.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scATAcat.pseudobulk_functions.get_pseudobulk_matrix_ext">
+<span class="sig-prename descclassname"><span class="pre">scATAcat.pseudobulk_functions.</span></span><span class="sig-name descname"><span class="pre">get_pseudobulk_matrix_ext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata_to_subset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adata_to_get_clusters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cluster_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'leiden'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sum'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scATAcat/pseudobulk_functions.html#get_pseudobulk_matrix_ext"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scATAcat.pseudobulk_functions.get_pseudobulk_matrix_ext" title="Link to this definition"></a></dt>
+<dd><p>Constructs pseudobulk by features matrix given the cluster key and AnnData objects.</p>
+<p>Parameters:</p>
+<ul class="simple">
+<li><p>adata_to_subset (AnnData): An AnnData object containing the sc count matrix.</p></li>
+<li><p>adata_to_get_clusters (AnnData): An AnnData object containing the clusterong information for give  cluster_key.</p></li>
+<li><p>cluster_key (str, optional): The key for the cluster key from which the pseudobulk matrix is constructed. Default is “leiden”.</p></li>
+<li><dl class="simple">
+<dt>method: method to aggregate the cells:</dt><dd><ul>
+<li><p>sum: sums the feature counts across cells</p></li>
+<li><p>mean: takes the mean of the feature counts across cells</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Returns:</p>
+<ul class="simple">
+<li><p>Pandas dataframe in th shape of pseudobulk x feature.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scATAcat.pseudobulk_functions.get_pseudobulk_to_prototype_distance">
+<span class="sig-prename descclassname"><span class="pre">scATAcat.pseudobulk_functions.</span></span><span class="sig-name descname"><span class="pre">get_pseudobulk_to_prototype_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pseudobulk_prototype_centroid_euclidean_dis_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pbulk_to_prototype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/scATAcat/pseudobulk_functions.html#get_pseudobulk_to_prototype_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#scATAcat.pseudobulk_functions.get_pseudobulk_to_prototype_distance" title="Link to this definition"></a></dt>
+<dd><p>Transfers Euclidean distances to scaled similarities based on pseudobulk and bulk samples’ perspectives.</p>
+<p>This function takes a square matrix of pairwise Euclidean distances between bulk centroids and pseudobulk samples.</p>
+<p>It then scales the distances to the minimum and returns a DataFrame representing the percentage contributions for each sample.</p>
+<p>Parameters:</p>
+<ul class="simple">
+<li><p>pseudobulk_prototype_centroid_euclidean_dis_df (DataFrame): A square matrix of pairwise distances between bulk centroids and pseudobulk samples.</p></li>
+<li><dl class="simple">
+<dt>pbulk_to_prototype (bool, optional): </dt><dd><ul>
+<li><p>If True, the distances are determined by the prorotypes’ perspective.</p></li>
+<li><p>If False, the distances are determined by the pseudobulk samples’ perspective. Default is True.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
+
+</section>
+<section id="module-scATAcat">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-scATAcat" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="src" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aybuge Altay.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
