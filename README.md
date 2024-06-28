@@ -12,3 +12,7 @@ You can install the library with:
 pip install git+https://github.com/aybugealtay/scATAcat.git
 
 ```
+
+## How to use scATAcat:
+
+A step-by-step tutorial guiding you through the use of scATAcat is provided in [this folder](https://github.com/aybugealtay/scATAcat/tree/main/tutorial).
