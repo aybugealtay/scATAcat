@@ -47,7 +47,7 @@ html_theme_options = {
 }
 html_static_path = ["_static"]
 html_show_sphinx = False
-html_logo = "../logo/logo.svg"
+html_logo = "../logo/logo_white.svg"
 html_title = "scATAcat"
 
 def setup(app: Sphinx):
