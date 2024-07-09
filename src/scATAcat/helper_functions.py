@@ -295,8 +295,8 @@ def preprocessing_standardization(adata, input_layer_key="libsize_norm_log2", ou
     - output_layer_key (str): The key for the standardized layer to be added. Default is "libsize_norm_log2_std".
     - std_key (str): The key for the standard deviation to be added. If None, ``feature_std`` is added as key.
     - mean_key (str): The key for the ``mean`` to be added. If None, ``feature_mean`` is added as key.
-    - std_ (numpy array): The key for accessing the standard deviation. If specified, it is utilized for the z-score calculations instead of assuming zero mean and unit variance. Default is None.
-    - mean_ (numpy array): The key for accessing the ``mean``. If specified, it is utilized for the z-score calculations instead of assuming zero mean and unit variance. Default is None.
+    - :param std_: (numpy array): The key for accessing the standard deviation. If specified, it is utilized for the z-score calculations instead of assuming zero ``mean`` and unit variance. Default is None.
+    - mean_ (numpy array): The key for accessing the ``mean``. If specified, it is utilized for the z-score calculations instead of assuming zero ``mean`` and unit variance. Default is None.
 
     Returns:
    
