@@ -113,7 +113,7 @@ def subset_adata_vars(adata, vars_list, copy_=True):
     
     - adata (AnnData): An AnnData object containing the sc count matrix.
     - vars_list (list): A list of variable names (features) to retain in the subset.
-    - copy_ (bool, optional): If True, a ``copy`` of the AnnData object is returned; if False, the original AnnData object is modified. Default is True.
+    - copy_ (bool, optional): If True, a `copy` of the AnnData object is returned; if False, the original AnnData object is modified. Default is True.
 
     Returns:
     
@@ -136,7 +136,7 @@ def subset_adata_obs(adata, obs_list, copy_=True):
     
     - adata (AnnData): An AnnData object containing the sc count matrix.
     - vars_list (list): A list of observations names (cells) to retain in the subset.
-    - copy_ (bool, optional): If True, a ``copy`` of the AnnData object is returned; if False, the original AnnData object is modified. Default is True.
+    - copy_ (bool, optional): If True, a `copy` of the AnnData object is returned; if False, the original AnnData object is modified. Default is True.
 
     Returns:
     
@@ -293,8 +293,8 @@ def preprocessing_standardization(adata, input_layer_key="libsize_norm_log2", ou
     - adata (AnnData): An AnnData object containing the sc count matrix.
     - input_layer_key (str): The key for accessing the layer to which standardization is applied. Default is "libsize_norm_log2". 
     - output_layer_key (str): The key for the standardized layer to be added. Default is "libsize_norm_log2_std".
-    - std_key (str): The key for the standard deviation to be added. If None, `feature_std` is added as key.
-    - mean_key (str): The key for the mean to be added. If None, `feature_mean` is added as key.  
+    - std_key (str): The key for the `standard deviation` to be added. If None, `feature_std` is added as key.
+    - mean_key (str): The key for the `mean` to be added. If None, `feature_mean` is added as key.  
     - std_ (numpy array): The key for accessing the standard deviation. If specified, it is utilized for the  z-score calculations instead of assuming zero mean and unit variance. Default is None. 
     - mean_ (numpy array): The key for accessing the ``mean``. If specified, it is utilized for the  z-score calculations instead of assuming zero mean and unit variance. Default is None. 
 
