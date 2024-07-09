@@ -339,15 +339,13 @@ def plot_pca_dist_heatmap(trained_bulk_pca_df_w_labels,projected_pseudobulk_pca_
 def plot_pca_dist_cent_heatmap(trained_bulk_pca_df_w_labels,projected_pseudobulk_pca_df, cmap='Blues_r'):
     '''
     Plot a heatmap visualizing the pairwise Euclidean distances between centroids of prorotypes and pseudobulks.
-
-        This function combines PCA components of projected pseudobulk data and trained prototype data, calculates centroids for trained prototype data, and plots a heatmap using Seaborn's clustermap.
+    This function combines PCA components of projected pseudobulk data and trained prototype data, calculates centroids for trained prototype data, and plots a heatmap using Seaborn's clustermap.
 
     Parameters:
-    
     - trained_bulk_pca_df_w_labels (DataFrame): DataFrame containing PCA components of trained bulk data with labels.
     - projected_pseudobulk_pca_df (DataFrame): DataFrame containing PCA components of projected pseudobulk data.
     - cmap (str, optional): Colormap for the heatmap. Default is 'Blues_r'.
-
+    
     Returns:
     - tuple: A tuple containing:
         - sns.ClusterGrid: Seaborn ClusterGrid object representing the heatmap.
