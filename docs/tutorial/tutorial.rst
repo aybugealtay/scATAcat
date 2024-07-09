@@ -2,12 +2,17 @@
 Tutorial
 ==================================================================
 
+Getting the tutorial data and setting up
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 This notebook demonstrates how to use scATAcat, a tool designed for
 annotationg cell-types in scATAC-seq data.
 
 The necessary data to run the code provided below can be found
 `here <https://nc.molgen.mpg.de/cloud/index.php/s/9jrwRGzHgST2NK7>`__.
 Please download the data and ensure it is stored in a folder named `data`.
+
+- **Load the libraries**
 
 .. code:: ipython3
 
@@ -31,9 +36,10 @@ Please download the data and ensure it is stored in a folder named `data`.
     
     warnings.filterwarnings('ignore')
 
+- **Set seed for reproducibility**
+
 .. code:: ipython3
 
-    # set the seed for reproducibility
     sd = 1234
     np.random.seed(sd)
     rn.seed(sd)
@@ -46,7 +52,7 @@ Please download the data and ensure it is stored in a folder named `data`.
     env: PYTHONHASHSEED=0
 
 
-define necessary parameters
+- **define necessary parameters**
 
 .. code:: ipython3
 

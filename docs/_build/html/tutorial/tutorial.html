@@ -49,6 +49,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../scATAcat.html">scATAcat package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation/installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#getting-the-tutorial-data-and-setting-up">Getting the tutorial data and setting up</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#load-scatac-seq-data">0 - Load scATAC-seq data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#initialize-the-anndata-object">1 - initialize the AnnData object</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#add-binary-layer-to-anndata">2 - add binary layer to AnnData</a></li>
@@ -96,11 +97,16 @@
              
   <section id="tutorial">
 <h1>Tutorial<a class="headerlink" href="#tutorial" title="Link to this heading"></a></h1>
+<section id="getting-the-tutorial-data-and-setting-up">
+<h2>Getting the tutorial data and setting up<a class="headerlink" href="#getting-the-tutorial-data-and-setting-up" title="Link to this heading"></a></h2>
 <p>This notebook demonstrates how to use scATAcat, a tool designed for
 annotationg cell-types in scATAC-seq data.</p>
 <p>The necessary data to run the code provided below can be found
 <a class="reference external" href="https://nc.molgen.mpg.de/cloud/index.php/s/9jrwRGzHgST2NK7">here</a>.
 Please download the data and ensure it is stored in a folder named <cite>data</cite>.</p>
+<ul class="simple">
+<li><p><strong>Load the libraries</strong></p></li>
+</ul>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">sklearn</span>
@@ -122,8 +128,10 @@ Please download the data and ensure it is stored in a folder named <cite>data</c
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set the seed for reproducibility</span>
-<span class="n">sd</span> <span class="o">=</span> <span class="mi">1234</span>
+<ul class="simple">
+<li><p><strong>Set seed for reproducibility</strong></p></li>
+</ul>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sd</span> <span class="o">=</span> <span class="mi">1234</span>
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">sd</span><span class="p">)</span>
 <span class="n">rn</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">sd</span><span class="p">)</span>
 <span class="o">%</span><span class="k">env</span> PYTHONHASHSEED=0
@@ -132,7 +140,9 @@ Please download the data and ensure it is stored in a folder named <cite>data</c
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">env</span><span class="p">:</span> <span class="n">PYTHONHASHSEED</span><span class="o">=</span><span class="mi">0</span>
 </pre></div>
 </div>
-<p>define necessary parameters</p>
+<ul class="simple">
+<li><p><strong>define necessary parameters</strong></p></li>
+</ul>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results_dir</span> <span class="o">=</span> <span class="s2">&quot;./results&quot;</span>
 <span class="n">output_dir</span> <span class="o">=</span> <span class="n">results_dir</span> <span class="o">+</span> <span class="s2">&quot;/outputs/&quot;</span>
 <span class="n">figures_dir</span> <span class="o">=</span> <span class="n">results_dir</span> <span class="o">+</span> <span class="s2">&quot;/figures/&quot;</span>
@@ -143,6 +153,7 @@ Please download the data and ensure it is stored in a folder named <cite>data</c
         <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="nb">dir</span><span class="p">)</span>
 </pre></div>
 </div>
+</section>
 <section id="load-scatac-seq-data">
 <h2>0 - Load scATAC-seq data<a class="headerlink" href="#load-scatac-seq-data" title="Link to this heading"></a></h2>
 <p>Here we load the scATAC-seq data from <a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S009286741830446X?via%3Dihub">Buenrostro et al.,
