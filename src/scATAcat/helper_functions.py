@@ -289,21 +289,20 @@ def preprocessing_standardization(adata, input_layer_key="libsize_norm_log2", ou
     Additionally, if alternative ``std_`` and ``mean_`` matrices/arrays are provided, these values are utilized for the calculations instead of assuming zero mean and unit variance.
 
     Parameters:
-    
+   
     - adata (AnnData): An AnnData object containing the sc count matrix.
-    - input_layer_key (str): The key for accessing the layer to which standardization is applied. Default is "libsize_norm_log2". 
+    - input_layer_key (str): The key for accessing the layer to which standardization is applied. Default is "libsize_norm_log2".
     - output_layer_key (str): The key for the standardized layer to be added. Default is "libsize_norm_log2_std".
     - std_key (str): The key for the standard deviation to be added. If None, ``feature_std`` is added as key.
-    - mean_key (str): The key for the ``mean`` to be added. If None, ``feature_mean`` is added as key.  
-    - std_ (numpy array): The key for accessing the standard deviation. If specified, it is utilized for the  z-score calculations instead of assuming zero mean and unit variance. Default is None. 
-    - mean_ (numpy array): The key for accessing the ``mean``. If specified, it is utilized for the  z-score calculations instead of assuming zero mean and unit variance. Default is None. 
+    - mean_key (str): The key for the ``mean`` to be added. If None, ``feature_mean`` is added as key.
+    - std_ (numpy array): The key for accessing the standard deviation. If specified, it is utilized for the z-score calculations instead of assuming zero mean and unit variance. Default is None.
+    - mean_ (numpy array): The key for accessing the ``mean``. If specified, it is utilized for the z-score calculations instead of assuming zero mean and unit variance. Default is None.
 
     Returns:
-    
+   
     - AnnData: The AnnData object with the libsize_norm_log2_std standardized layer added.
-    
+
     '''
-    
     try:
 
         print(adata.var[std_key])
@@ -338,9 +337,6 @@ def preprocessing_standardization(adata, input_layer_key="libsize_norm_log2", ou
         std[std == 0] = 1
         adata.var[std_key] = std
         adata.var[mean_key] = mean
-       # check this!! it was working better with std and mean chanign it's places 19oct23
-        # adata.var[std_key] = mean
-       # adata.var[mean_key] = std
 
         if zero_center:
             scaled_X  = (adata.layers[input_layer_key] -  mean) 
