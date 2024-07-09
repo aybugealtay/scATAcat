@@ -186,20 +186,20 @@ def apply_TFIDF_sparse(adata, binary_layer_key='binary', TFIDF_key='TF_logIDF' )
 
 def apply_PCA(adata, layer_key = "TF_logIDF", svd_solver = 'arpack', random_state=0):
     '''
-    Wrapper around scanpy.tl.pca to enable applying scanpy.tl.pca function to a specified layer. 
+    Wrapper around scanpy.tl.pca to enable applying scanpy.tl.pca function to a specified layer.
     
-    adds the ``X_pca``,``PCs`` (components), ``variance`` and ``variance_ratio``to adata object
+    Adds the ``X_pca``, ``PCs`` (components), ``variance``, and ``variance_ratio`` to the adata object.
 
-    see scanpy documentaion for details: https://scanpy.readthedocs.io/en/latest/generated/scanpy.tl.pca.html#scanpy-tl-pca
+    See scanpy documentation for details: https://scanpy.readthedocs.io/en/latest/generated/scanpy.tl.pca.html#scanpy-tl-pca
     
     Parameters:
     
-    - adata (AnnData):  An AnnData object containing the sc count matrix.
-    - layer_key: The key for accessing the layer to which PCA is applied. Default is "TF_logIDF". 
+    - adata (AnnData): An AnnData object containing the sc count matrix.
+    - layer_key (str): The key for accessing the layer to which PCA is applied. Default is "TF_logIDF". 
 
     Returns:
     
-    - AnnData: The AnnData object with the TF-log(IDF) normalized layer added.
+    - AnnData: The AnnData object with the PCA results added.
     '''
     pca__ = sc.tl.pca(adata.layers[layer_key], svd_solver= svd_solver, return_info=True,random_state=0)
     # define ins annotations for pca
