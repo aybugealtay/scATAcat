@@ -12,3 +12,5 @@ tqdm
 scikit-learn>=0.24
 anndata >=0.9.2
 mycolorpy >=1.5.1
+# dependency from github
+git+https://github.com/aybugealtay/scATAcat.git
