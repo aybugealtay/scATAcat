@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tutorial &mdash; scATAcat</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Installation" href="../installation/installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            scATAcat Documentation
+              <img src="../_static/logo_white.svg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../scATAcat.html">scATAcat package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#load-scatac-seq-data">0 - Load scATAC-seq data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#initialize-the-anndata-object">1 - initialize the AnnData object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#add-binary-layer-to-anndata">2 - add binary layer to AnnData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calculate-plot-cell-and-feature-statistics">3- calculate &amp; plot cell and feature statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#filter-the-cells-and-features">4- filter the cells and features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#load-preprocess-the-bulk-data">5- load &amp; preprocess the bulk data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#overlap-bulk-and-sc-features">6 - Overlap bulk and sc features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#doublet-removal">7- doublet removal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#apply-tf-idf">8- apply TF-IDF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#subset-matrices-to-differential-ccres">9 - subset matrices to differential cCREs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dimention-reduction-and-clustering">10- dimention reduction and clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#apply-umap-leiden-clustering">11 - apply UMAP &amp; leiden clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-pseudobulks-according-to-the-cluster-assignments">12 - create pseudobulks according to the cluster assignments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#coembedding-prototypes-with-pseudobulks-in-pca-space">13 - Coembedding prototypes with pseudobulks in PCA space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#determining-the-cluster-annotations-by-matching-clusters-to-prototypes">14 - Determining the cluster annotations by matching Clusters to Prototypes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#make-a-final-dataframe-including-the-cluster-ids-and-the-final-annotations-of-each-cell">15 - make a final dataframe including the cluster IDs and the final annotations of each cell:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#export-anndata-object">export AnnData object</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">scATAcat Documentation</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorial/tutorial.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tutorial">
+<h1>Tutorial<a class="headerlink" href="#tutorial" title="Link to this heading"></a></h1>
+<p>This notebook demonstrates how to use scATAcat, a tool designed for
+annotationg cell-types in scATAC-seq data.</p>
+<p>The necessary data to run the code provided below can be found
+<a class="reference external" href="https://nc.molgen.mpg.de/cloud/index.php/s/9jrwRGzHgST2NK7">here</a>.
+Please download the data and ensure it is stored in a folder named <cite>data</cite>.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">sklearn</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scanpy</span> <span class="k">as</span> <span class="nn">sc</span>
+<span class="kn">import</span> <span class="nn">scipy.sparse</span>
+<span class="kn">import</span> <span class="nn">anndata</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">logging</span> <span class="k">as</span> <span class="nn">logg</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">preprocessing</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">scATAcat</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">random</span> <span class="k">as</span> <span class="nn">rn</span>
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set the seed for reproducibility</span>
+<span class="n">sd</span> <span class="o">=</span> <span class="mi">1234</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">sd</span><span class="p">)</span>
+<span class="n">rn</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">sd</span><span class="p">)</span>
+<span class="o">%</span><span class="k">env</span> PYTHONHASHSEED=0
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">env</span><span class="p">:</span> <span class="n">PYTHONHASHSEED</span><span class="o">=</span><span class="mi">0</span>
+</pre></div>
+</div>
+<p>define necessary parameters</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results_dir</span> <span class="o">=</span> <span class="s2">&quot;./results&quot;</span>
+<span class="n">output_dir</span> <span class="o">=</span> <span class="n">results_dir</span> <span class="o">+</span> <span class="s2">&quot;/outputs/&quot;</span>
+<span class="n">figures_dir</span> <span class="o">=</span> <span class="n">results_dir</span> <span class="o">+</span> <span class="s2">&quot;/figures/&quot;</span>
+<span class="n">data_dir</span> <span class="o">=</span> <span class="s2">&quot;./data/&quot;</span>
+
+<span class="k">for</span> <span class="nb">dir</span> <span class="ow">in</span> <span class="p">[</span><span class="n">figures_dir</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="nb">dir</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="nb">dir</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="load-scatac-seq-data">
+<h2>0 - Load scATAC-seq data<a class="headerlink" href="#load-scatac-seq-data" title="Link to this heading"></a></h2>
+<p>Here we load the scATAC-seq data from <a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S009286741830446X?via%3Dihub">Buenrostro et al.,
+2018</a>.
+This datset comprises of 2,210 cells human hematopoietic progenitor
+cells which are obtained from bone marrow and isolated via
+fluorescence-activated cell sorting (FACS). FACS enables sorting of
+single cells into a well plate using cell-type specific cell-surface
+markers and thereby provides a true cell-type annotation for each cell
+in the data. This means, we know the real cell-type identities of this
+cells.</p>
+<p>Here, <a class="reference external" href="https://www.nature.com/articles/s41586-020-2493-4">ENCODE
+cCREs</a> are used as
+the reference frame/features. We calculated the cCRE coverages for each
+cell, which is provided in <code class="docutils literal notranslate"><span class="pre">data/matrix_sparse.pkl</span></code>. The column and
+index IDs of this matrix are given in <code class="docutils literal notranslate"><span class="pre">data/cell_IDs.csv</span></code> and
+<code class="docutils literal notranslate"><span class="pre">features.csv</span></code>, respectively.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ENCODE_coverage_per_cell_df</span><span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">data_dir</span> <span class="o">+</span> <span class="s1">&#39;matrix_sparse.pkl&#39;</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ENCODE_coverage_per_cell_df</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="mi">926535</span><span class="n">x2210</span> <span class="n">sparse</span> <span class="n">matrix</span> <span class="n">of</span> <span class="nb">type</span> <span class="s1">&#39;&lt;class &#39;</span><span class="n">numpy</span><span class="o">.</span><span class="n">float32</span><span class="s1">&#39;&gt;&#39;</span>
+    <span class="k">with</span> <span class="mi">18562502</span> <span class="n">stored</span> <span class="n">elements</span> <span class="ow">in</span> <span class="n">Compressed</span> <span class="n">Sparse</span> <span class="n">Row</span> <span class="nb">format</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ENCODE_cCREs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">data_dir</span> <span class="o">+</span><span class="s2">&quot;features.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">ENCODE_cCREs</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">ENCODE_cCREs</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;cCREs&#39;</span><span class="p">]</span>
+<span class="n">ENCODE_cCREs</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>cCREs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>chr1_181251_181601</th>
+      <td>chr1_181251_181601</td>
+    </tr>
+    <tr>
+      <th>chr1_190865_191071</th>
+      <td>chr1_190865_191071</td>
+    </tr>
+    <tr>
+      <th>chr1_778562_778912</th>
+      <td>chr1_778562_778912</td>
+    </tr>
+    <tr>
+      <th>chr1_779086_779355</th>
+      <td>chr1_779086_779355</td>
+    </tr>
+    <tr>
+      <th>chr1_779727_780060</th>
+      <td>chr1_779727_780060</td>
+    </tr>
+  </tbody>
+</table>
+</div><div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cell_IDs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">data_dir</span> <span class="o">+</span><span class="s2">&quot;cell_IDs.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">cell_IDs</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">cell_IDs</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;cell_IDs&#39;</span><span class="p">]</span>
+<span class="n">cell_IDs</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>cell_IDs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>CLP_0</th>
+      <td>CLP_0</td>
+    </tr>
+    <tr>
+      <th>CLP_1</th>
+      <td>CLP_1</td>
+    </tr>
+    <tr>
+      <th>CMP_0</th>
+      <td>CMP_0</td>
+    </tr>
+    <tr>
+      <th>CMP_1</th>
+      <td>CMP_1</td>
+    </tr>
+    <tr>
+      <th>CMP_2</th>
+      <td>CMP_2</td>
+    </tr>
+  </tbody>
+</table>
+</div></section>
+<section id="initialize-the-anndata-object">
+<h2>1 - initialize the AnnData object<a class="headerlink" href="#initialize-the-anndata-object" title="Link to this heading"></a></h2>
+<p>scATAcat relies on
+<a class="reference external" href="https://anndata.readthedocs.io/en/latest/">AnnData</a> package when
+working with datasets. Here we define an AnnData object from our
+scATAC-seq data. Note that AmnnData requires observations as the columns
+and variables as indexes. We use <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csr_matrix.html">csr
+matrix</a>
+format.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sc_completeFeatures_adata</span> <span class="o">=</span> <span class="n">anndata</span><span class="o">.</span><span class="n">AnnData</span><span class="p">(</span><span class="n">ENCODE_coverage_per_cell_df</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span><span class="o">.</span><span class="n">tocsr</span><span class="p">(),</span> <span class="n">var</span><span class="o">=</span><span class="n">ENCODE_cCREs</span><span class="p">,</span> <span class="n">obs</span><span class="o">=</span><span class="n">cell_IDs</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sc_completeFeatures_adata</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>AnnData object with n_obs × n_vars = 2210 × 926535
+    obs: &#39;cell_IDs&#39;
+    var: &#39;cCREs&#39;
+</pre></div>
+</div>
+</section>
+<section id="add-binary-layer-to-anndata">
+<h2>2 - add binary layer to AnnData<a class="headerlink" href="#add-binary-layer-to-anndata" title="Link to this heading"></a></h2>
+<p>We binarize the matrix to enable further processing and filtering. This
+new matrix is added as a new layer to our AnnData object with the
+keyword “binary”.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scATAcat</span><span class="o">.</span><span class="n">add_binary_layer</span><span class="p">(</span><span class="n">sc_completeFeatures_adata</span><span class="p">,</span> <span class="n">binary_layer_key</span><span class="o">=</span><span class="s2">&quot;binary&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>AnnData object with n_obs × n_vars = 2210 × 926535
+    obs: &#39;cell_IDs&#39;
+    var: &#39;cCREs&#39;
+    layers: &#39;binary&#39;
+</pre></div>
+</div>
+</section>
+<section id="calculate-plot-cell-and-feature-statistics">
+<h2>3- calculate &amp; plot cell and feature statistics<a class="headerlink" href="#calculate-plot-cell-and-feature-statistics" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">cell_feature_statistics()</span></code> function calculates the quality features
+like “number of features per cell” and “number of cells per feature”.
+<code class="docutils literal notranslate"><span class="pre">plot_feature_statistics()</span></code> and <code class="docutils literal notranslate"><span class="pre">plot_cell_statistics()</span></code> functions
+enables viuzalizations of these quality features.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scATAcat</span><span class="o">.</span><span class="n">cell_feature_statistics</span><span class="p">(</span><span class="n">sc_completeFeatures_adata</span><span class="p">,</span> <span class="n">binary_layer_key</span> <span class="o">=</span><span class="s1">&#39;binary&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>AnnData object with n_obs × n_vars = 2210 × 926535
+    obs: &#39;cell_IDs&#39;
+    var: &#39;cCREs&#39;
+    obsm: &#39;num_feature_per_cell&#39;
+    varm: &#39;num_cell_per_feature&#39;
+    layers: &#39;binary&#39;
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scATAcat</span><span class="o">.</span><span class="n">plot_feature_statistics</span><span class="p">(</span><span class="n">sc_completeFeatures_adata</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightgrey&quot;</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">save_dir</span> <span class="o">=</span> <span class="n">figures_dir</span> <span class="o">+</span><span class="s2">&quot;/feature_statistics_plot.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>AnnData object with n_obs × n_vars = 2210 × 926535
+    obs: &#39;cell_IDs&#39;
+    var: &#39;cCREs&#39;
+    obsm: &#39;num_feature_per_cell&#39;
+    varm: &#39;num_cell_per_feature&#39;
+    layers: &#39;binary&#39;
+</pre></div>
+</div>
+<img alt="../_images/tutorial_17_1.png" src="../_images/tutorial_17_1.png" />
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scATAcat</span><span class="o">.</span><span class="n">plot_cell_statistics</span><span class="p">(</span><span class="n">sc_completeFeatures_adata</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightgrey&quot;</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">save_dir</span> <span class="o">=</span> <span class="n">figures_dir</span> <span class="o">+</span> <span class="s2">&quot;/cell_statistics_plot.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>AnnData object with n_obs × n_vars = 2210 × 926535
+    obs: &#39;cell_IDs&#39;
+    var: &#39;cCREs&#39;
+    obsm: &#39;num_feature_per_cell&#39;
+    varm: &#39;num_cell_per_feature&#39;
+    layers: &#39;binary&#39;
+</pre></div>
+</div>
+<img alt="../_images/tutorial_18_1.png" src="../_images/tutorial_18_1.png" />
+</section>
+<section id="filter-the-cells-and-features">
+<h2>4- filter the cells and features<a class="headerlink" href="#filter-the-cells-and-features" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">preproces_sc_matrix()</span></code> function is used to filter unwanted cells and
+features. By default, eatures which occur in less than
+<code class="docutils literal notranslate"><span class="pre">feature_cutoff=3</span></code> cells get eliminated. In the level of cells, we
+filter out cells with fewer than <code class="docutils literal notranslate"><span class="pre">feature_cutoff=1000</span></code> and more than
+<code class="docutils literal notranslate"><span class="pre">cell_cutoff_max=80000</span></code> non-zero features. Additionally, we get rid of
+the features within Y chromosome to avoid gender biases, controlled by
+<code class="docutils literal notranslate"><span class="pre">remove_chrY</span> <span class="pre">=</span> <span class="pre">True</span></code> paramater.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sc_completeFeatures_adata</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>AnnData object with n_obs × n_vars = 2210 × 926535
+    obs: &#39;cell_IDs&#39;
+    var: &#39;cCREs&#39;
+    obsm: &#39;num_feature_per_cell&#39;
+    varm: &#39;num_cell_per_feature&#39;
+    layers: &#39;binary&#39;
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sc_filteredFeatures_adata</span> <span class="o">=</span> <span class="n">scATAcat</span><span class="o">.</span><span class="n">preproces_sc_matrix</span><span class="p">(</span><span class="n">sc_completeFeatures_adata</span><span class="p">,</span><span class="n">cell_cutoff</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span><span class="n">cell_cutoff_max</span><span class="o">=</span><span class="mi">80000</span><span class="p">,</span> <span class="n">feature_cutoff</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">remove_chrY</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">var_key</span> <span class="o">=</span> <span class="s1">&#39;cCREs&#39;</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sc_filteredFeatures_adata</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>View of AnnData object with n_obs × n_vars = 1872 × 501699
+    obs: &#39;cell_IDs&#39;
+    var: &#39;cCREs&#39;
+    obsm: &#39;num_feature_per_cell&#39;
+    varm: &#39;num_cell_per_feature&#39;
+    layers: &#39;binary&#39;
+</pre></div>
+</div>
+<p>note that here we filtered almost half of the features!</p>
+</section>
+<section id="load-preprocess-the-bulk-data">
+<h2>5- load &amp; preprocess the bulk data<a class="headerlink" href="#load-preprocess-the-bulk-data" title="Link to this heading"></a></h2>
+<p>scATAcat requires bulk prototype data to provide cell-type annotation
+for query scATAC-seq data. For this tutorial, we use prototype
+cell-types derived from bulk ATAC-seq data of hematopoietic progenitors
+from <a class="reference external" href="https://www.nature.com/articles/ng.3646">Corces et al., 2016</a>.
+This dataset comprises of bulk ATAC-seq data of hematopoietic
+progenitors, serving as an perfect example for our purposes. An AnnData
+object containing this dataset can easily be generated using the
+<code class="docutils literal notranslate"><span class="pre">generate_bulk_sparse_AnnData()</span></code> function, which prepares the data in
+a format suitable for scATAcat analysis. <code class="docutils literal notranslate"><span class="pre">data/bulk_prototypes.pkl</span></code>
+matrix includes the cCRE coverages of each bulk sample.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bulk_by_ENCODE_peaks_df_annotated</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">data_dir</span> <span class="o">+</span> <span class="s1">&#39;bulk_prototypes.pkl&#39;</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bulk_completeFeatures_adata</span> <span class="o">=</span> <span class="n">scATAcat</span><span class="o">.</span><span class="n">generate_bulk_sparse_AnnData</span><span class="p">(</span><span class="n">bulk_by_ENCODE_peaks_df_annotated</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bulk_completeFeatures_adata</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>AnnData object with n_obs × n_vars = 43 × 926535
+    obs: &#39;cell_types&#39;
+    var: &#39;cCREs&#39;
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">preprocess_bulk_adata()</span></code> function preprocesses prototype/bulk AnnData
+by optionally removing features associated with chromosome Y, controlled
+by <code class="docutils literal notranslate"><span class="pre">remove_chrY</span> <span class="pre">=</span> <span class="pre">True</span></code> paramater.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bulk_completeFeatures_adata</span> <span class="o">=</span> <span class="n">scATAcat</span><span class="o">.</span><span class="n">preprocess_bulk_adata</span><span class="p">(</span><span class="n">bulk_completeFeatures_adata</span><span class="p">,</span> <span class="n">remove_chrY</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">var_key</span> <span class="o">=</span> <span class="s1">&#39;cCREs&#39;</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="overlap-bulk-and-sc-features">
+<h2>6 - Overlap bulk and sc features<a class="headerlink" href="#overlap-bulk-and-sc-features" title="Link to this heading"></a></h2>
+<p>Before we proceed with our analysis, it’s essential to align the
+features between the bulk and single-cell (sc) AnnData objects. Although
+we initially used the same set of candidate cis-regulatory elements
+(cCREs), different filtering criteria applied to the bulk and sc data
+may have resulted in discrepancies. A unified feature set is crucial for
+integrating these datasets effectively. We define the common variables
+with <code class="docutils literal notranslate"><span class="pre">overlap_vars()</span></code> function and subset both the AnnData objects to
+these common variables using <code class="docutils literal notranslate"><span class="pre">subset_adata_vars()</span></code> function.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sc_bulk_common_vars</span> <span class="o">=</span> <span class="n">scATAcat</span><span class="o">.</span><span class="n">overlap_vars</span><span class="p">(</span><span class="n">sc_filteredFeatures_adata</span><span class="p">,</span> <span class="n">bulk_completeFeatures_adata</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">sc_bulk_common_vars</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">501699</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sc_commonFeatures_adata</span> <span class="o">=</span> <span class="n">scATAcat</span><span class="o">.</span><span class="n">subset_adata_vars</span><span class="p">(</span><span class="n">sc_filteredFeatures_adata</span><span class="p">,</span> <span class="n">vars_list</span><span class="o">=</span><span class="n">sc_bulk_common_vars</span><span class="p">,</span> <span class="n">copy_</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bulk_commonFeatures_adata</span> <span class="o">=</span> <span class="n">scATAcat</span><span class="o">.</span><span class="n">subset_adata_vars</span><span class="p">(</span><span class="n">bulk_completeFeatures_adata</span><span class="p">,</span> <span class="n">vars_list</span><span class="o">=</span><span class="n">sc_bulk_common_vars</span><span class="p">,</span> <span class="n">copy_</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="doublet-removal">
+<h2>7- doublet removal<a class="headerlink" href="#doublet-removal" title="Link to this heading"></a></h2>
+<p>If you’ve applied a doublet detection algorithm, this is a good place to
+remove these cells from your analysis. In our case, removal isn’t
+necessary as our data was obtained from sorted individual cells.
+However, we strongly recommend removing doublets from the analysis, as
+these cells can significantly impact downstream analysis. We have used
+<a class="reference external" href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-021-02469-x">AMULET</a>
+and have achieved good results with it.</p>
+</section>
+<section id="apply-tf-idf">
+<h2>8- apply TF-IDF<a class="headerlink" href="#apply-tf-idf" title="Link to this heading"></a></h2>
+<p>We continue with processign our sc data. We apply TF-logIDF
+normalization. This results in re-weighted features (cCREs) by assigning
+greater weight to more important features.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scATAcat</span><span class="o">.</span><span class="n">apply_TFIDF_sparse</span><span class="p">(</span><span class="n">sc_commonFeatures_adata</span><span class="p">,</span> <span class="n">binary_layer_key</span><span class="o">=</span><span class="s1">&#39;binary&#39;</span><span class="p">,</span> <span class="n">TFIDF_key</span><span class="o">=</span><span class="s1">&#39;TF_logIDF&#39;</span> <span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>AnnData object with n_obs × n_vars = 1872 × 501699
+    obs: &#39;cell_IDs&#39;
+    var: &#39;cCREs&#39;
+    obsm: &#39;num_feature_per_cell&#39;
+    varm: &#39;num_cell_per_feature&#39;
+    layers: &#39;binary&#39;, &#39;TF_logIDF&#39;
+</pre></div>
+</div>
+</section>
+<section id="subset-matrices-to-differential-ccres">
+<h2>9 - subset matrices to differential cCREs<a class="headerlink" href="#subset-matrices-to-differential-ccres" title="Link to this heading"></a></h2>
+<p>Next, we subset the data to focus on the differential cCREs as defined
+by the reference bulk ATAC-seq data. These regions are identified using
+the DiffBind R package (version 3.0) by conducting pairwise comparisons
+between each cell type. The file <code class="docutils literal notranslate"><span class="pre">data/differential_features.csv</span></code>
+contains the union of the top 2000 differential cCREs from each
+comparison</p>
+<p>We next subset both the sc and bulk AnnData objects to these
+differential regions with the assumption that these specific cCREs
+contain the most discriminative information and are indicative of
+cell-type specificity.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pairwise_top2000_cCREs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">data_dir</span> <span class="o">+</span><span class="s1">&#39;/differential_features.csv&#39;</span><span class="p">,</span><span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+<span class="n">pairwise_top2000_cCREs</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>chr1_1842820_1843169</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>chr1_1895700_1895891</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>chr1_1895944_1896292</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>chr1_1966481_1966686</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>chr1_2045674_2045954</td>
+    </tr>
+  </tbody>
+</table>
+</div><div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">pairwise_top2000_cCREs</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">21034</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">common_differential_vars</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">sc_bulk_common_vars</span><span class="p">))</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">pairwise_top2000_cCREs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())))</span>
+
+<span class="nb">len</span><span class="p">(</span><span class="n">common_differential_vars</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">19412</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bulk_commonDiffFeatures_adata</span> <span class="o">=</span> <span class="n">scATAcat</span><span class="o">.</span><span class="n">subset_adata_vars</span><span class="p">(</span><span class="n">bulk_commonFeatures_adata</span><span class="p">,</span>
+                                                 <span class="n">vars_list</span><span class="o">=</span><span class="n">common_differential_vars</span><span class="p">,</span>
+                                                 <span class="n">copy_</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sc_commonDiffFeatures_adata</span> <span class="o">=</span> <span class="n">scATAcat</span><span class="o">.</span><span class="n">subset_adata_vars</span><span class="p">(</span><span class="n">sc_commonFeatures_adata</span><span class="p">,</span>
+                                                 <span class="n">vars_list</span><span class="o">=</span><span class="n">common_differential_vars</span><span class="p">,</span>
+                                                 <span class="n">copy_</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="dimention-reduction-and-clustering">
+<h2>10- dimention reduction and clustering<a class="headerlink" href="#dimention-reduction-and-clustering" title="Link to this heading"></a></h2>
+<p>The next step is dimension reduction. We apply principal component
+analysis (PCA) using <code class="docutils literal notranslate"><span class="pre">apply_PCA()</span></code> function. Sometimes the first
+principal component may capture the variation in the sequencing depth
+among among cells rather than biological variation. In such instances,
+it might be advisable to exclude the first PC. Below, we examine whether
+there is such an association.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scATAcat</span><span class="o">.</span><span class="n">apply_PCA</span><span class="p">(</span><span class="n">sc_commonDiffFeatures_adata</span><span class="p">,</span> <span class="n">layer_key</span> <span class="o">=</span><span class="s1">&#39;TF_logIDF&#39;</span><span class="p">,</span> <span class="n">svd_solver</span><span class="o">=</span><span class="s1">&#39;arpack&#39;</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>AnnData object with n_obs × n_vars = 1872 × 19412
+    obs: &#39;cell_IDs&#39;
+    var: &#39;cCREs&#39;
+    uns: &#39;pca&#39;
+    obsm: &#39;num_feature_per_cell&#39;, &#39;X_pca&#39;
+    varm: &#39;num_cell_per_feature&#39;, &#39;PCs&#39;
+    layers: &#39;binary&#39;, &#39;TF_logIDF&#39;
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">plt</span><span class="o">.</span><span class="n">rc_context</span><span class="p">():</span>
+    <span class="n">sc</span><span class="o">.</span><span class="n">pl</span><span class="o">.</span><span class="n">pca_variance_ratio</span><span class="p">(</span><span class="n">sc_commonDiffFeatures_adata</span><span class="p">,</span> <span class="n">n_pcs</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">figures_dir</span> <span class="o">+</span> <span class="s2">&quot;/pca_variance_ratio.pdf&quot;</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/tutorial_46_0.png" src="../_images/tutorial_46_0.png" />
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">seqDepth_PC1_plot</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">jointplot</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">sc_commonDiffFeatures_adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;X_pca&#39;</span><span class="p">][:,</span><span class="mi">0</span><span class="p">],</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sc_commonDiffFeatures_adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;num_feature_per_cell&#39;</span><span class="p">]),</span>
+    <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;kde&quot;</span><span class="p">,</span><span class="n">fill</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/tutorial_47_0.png" src="../_images/tutorial_47_0.png" />
+</section>
+<section id="apply-umap-leiden-clustering">
+<h2>11 - apply UMAP &amp; leiden clustering<a class="headerlink" href="#apply-umap-leiden-clustering" title="Link to this heading"></a></h2>
+<p>Next, we compute the nearest neighbors and apply Leiden clustering.
+These clusters are then visualized in a low-dimensional UMAP embedding.
+Note that we these funtions are borrowed from
+<a class="reference external" href="https://scanpy.readthedocs.io/en/latest/index.html">ScanPy</a> package.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">sc_commonDiffFeatures_adata</span><span class="p">,</span> <span class="n">n_pcs</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">n_neighbors</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">leiden_resolution</span><span class="o">=</span><span class="mf">0.4</span>
+<span class="n">leiden_key</span><span class="o">=</span><span class="s2">&quot;leiden_&quot;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">leiden_resolution</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sc</span><span class="o">.</span><span class="n">tl</span><span class="o">.</span><span class="n">umap</span><span class="p">(</span><span class="n">sc_commonDiffFeatures_adata</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sc</span><span class="o">.</span><span class="n">tl</span><span class="o">.</span><span class="n">leiden</span><span class="p">(</span><span class="n">sc_commonDiffFeatures_adata</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="n">leiden_resolution</span><span class="p">,</span><span class="n">key_added</span><span class="o">=</span><span class="n">leiden_key</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># one can explicity specify the colors of their liking</span>
+<span class="n">sc_commonDiffFeatures_adata</span><span class="o">.</span><span class="n">uns</span><span class="p">[</span><span class="n">leiden_key</span> <span class="o">+</span><span class="s1">&#39;_colors&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;#1f77b4&#39;</span><span class="p">,</span>
+<span class="s1">&#39;#ff7f0e&#39;</span><span class="p">,</span>
+<span class="s1">&#39;#d62728&#39;</span><span class="p">,</span>
+<span class="s1">&#39;#8c564b&#39;</span><span class="p">,</span>
+<span class="s1">&#39;#e377c2&#39;</span><span class="p">,</span>
+<span class="s1">&#39;#bcbd22&#39;</span><span class="p">,</span>
+<span class="s1">&#39;#17becf&#39;</span><span class="p">,</span>
+<span class="s1">&#39;#2ca02c&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">plt</span><span class="o">.</span><span class="n">rc_context</span><span class="p">():</span>
+    <span class="n">sc</span><span class="o">.</span><span class="n">pl</span><span class="o">.</span><span class="n">umap</span><span class="p">(</span><span class="n">sc_commonDiffFeatures_adata</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">leiden_key</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">35</span> <span class="p">,</span> <span class="n">add_outline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">figures_dir</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span><span class="o">+</span> <span class="n">leiden_key</span><span class="o">+</span> <span class="s2">&quot;.pdf&quot;</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/tutorial_54_0.png" src="../_images/tutorial_54_0.png" />
+<p>We can also examine the sequencing depth of cells to determine if it
+impacts the clustering results:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sc_commonDiffFeatures_adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;num_feature_per_cell_&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sc_commonDiffFeatures_adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;num_feature_per_cell&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">plt</span><span class="o">.</span><span class="n">rc_context</span><span class="p">():</span>
+    <span class="n">sc</span><span class="o">.</span><span class="n">pl</span><span class="o">.</span><span class="n">umap</span><span class="p">(</span><span class="n">sc_commonDiffFeatures_adata</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;num_feature_per_cell_&#39;</span><span class="p">,</span> <span class="n">add_outline</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">title</span> <span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">25</span> <span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">figures_dir</span> <span class="o">+</span> <span class="s2">&quot;/seq_depth_umap.pdf&quot;</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/tutorial_57_0.png" src="../_images/tutorial_57_0.png" />
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">Figure</span> <span class="n">size</span> <span class="mi">640</span><span class="n">x480</span> <span class="k">with</span> <span class="mi">0</span> <span class="n">Axes</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="create-pseudobulks-according-to-the-cluster-assignments">
+<h2>12 - create pseudobulks according to the cluster assignments<a class="headerlink" href="#create-pseudobulks-according-to-the-cluster-assignments" title="Link to this heading"></a></h2>
+<p>We form pseudobulks by aggregating the cells in each cluster.
+<code class="docutils literal notranslate"><span class="pre">get_pseudobulk_matrix_ext()</span></code> function is used to obtain pseudobulk
+matrix and <code class="docutils literal notranslate"><span class="pre">generate_bulk_sparse_AnnData()</span></code> is repurposed to generate
+an AnnData object for the pseudobulks. Note that the pseudobulk matrix
+has the common cCREs as variables.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cell_cluster_assignments</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">sc_commonDiffFeatures_adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">leiden_key</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+<span class="n">cell_cluster_assignments</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>leiden_0.4</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>CLP_1</th>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>CMP_0</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>CMP_1</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>CMP_2</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>CMP_3</th>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>LMPP_90</th>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>LMPP_91</th>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>LMPP_93</th>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>LMPP_94</th>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>LMPP_95</th>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+<p>1872 rows × 1 columns</p>
+</div><div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cell_cluster_sizes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">cell_cluster_assignments</span><span class="p">[</span><span class="n">leiden_key</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())</span>
+<span class="n">cell_cluster_sizes</span><span class="p">[</span><span class="s1">&#39;leiden_clusters&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cell_cluster_sizes</span><span class="o">.</span><span class="n">index</span>
+<span class="n">cell_cluster_sizes</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>count</th>
+      <th>leiden_clusters</th>
+    </tr>
+    <tr>
+      <th>leiden_0.4</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>614</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>359</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>233</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>227</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>210</td>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table>
+</div><div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">clust_id</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">sc_commonDiffFeatures_adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">leiden_key</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+    <span class="n">clust_df</span><span class="o">=</span> <span class="n">sc_commonDiffFeatures_adata</span><span class="p">[</span><span class="n">sc_commonDiffFeatures_adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">leiden_key</span><span class="p">]</span><span class="o">==</span><span class="n">clust_id</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cell_types</span> <span class="o">=</span> <span class="p">([(</span><span class="n">r</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">clust_df</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="n">leiden_key</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot a bar chart</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span>
+    <span class="n">y</span><span class="o">=</span><span class="s2">&quot;count&quot;</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="s2">&quot;leiden_clusters&quot;</span><span class="p">,</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">cell_cluster_sizes</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;lightgrey&#39;</span><span class="p">);</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightgrey&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Leiden cluster ID&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;cluster size&quot;</span><span class="p">)</span>
+<span class="c1">#atickt(yticks=(list(range(0,1500,100))))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">figures_dir</span> <span class="o">+</span> <span class="s2">&quot;/cluster_sizes_&quot;</span><span class="o">+</span><span class="n">leiden_key</span><span class="o">+</span><span class="s2">&quot;.pdf&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/tutorial_63_0.png" src="../_images/tutorial_63_0.png" />
+</section>
+<section id="coembedding-prototypes-with-pseudobulks-in-pca-space">
+<h2>13 - Coembedding prototypes with pseudobulks in PCA space<a class="headerlink" href="#coembedding-prototypes-with-pseudobulks-in-pca-space" title="Link to this heading"></a></h2>
+<p>We preprocess both the bulk and pseudobulk data prior to co-embedding.</p>
+<p>First, we apply library size normalization and log2 transformation to
+the datasets using the <code class="docutils literal notranslate"><span class="pre">preprocessing_libsize_norm_log2()</span></code> function,
+then subset the matrices to include only differential cCREs.</p>
+<p>Next, we perform z-normalization using the
+<code class="docutils literal notranslate"><span class="pre">preprocessing_standardization()</span></code> function. This function can also
+accept external parameters for standard deviation (<code class="docutils literal notranslate"><span class="pre">std_</span></code>) and mean
+(<code class="docutils literal notranslate"><span class="pre">mean_</span></code>). When normalizing the pseudobulk matrix, we utilize the
+std_ and mean_ values from the bulk AnnData to facilitate the
+integration of these datasets.</p>
+<ul class="simple">
+<li><p><strong>Processing</strong></p></li>
+</ul>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pseudobulk_commonFeatures_adata</span> <span class="o">=</span> <span class="n">scATAcat</span><span class="o">.</span><span class="n">generate_bulk_sparse_AnnData</span><span class="p">(</span><span class="n">scATAcat</span><span class="o">.</span><span class="n">get_pseudobulk_matrix_ext</span><span class="p">(</span><span class="n">adata_to_subset</span><span class="o">=</span><span class="n">sc_commonFeatures_adata</span><span class="p">,</span> <span class="n">adata_to_get_clusters</span><span class="o">=</span><span class="n">sc_commonDiffFeatures_adata</span><span class="p">,</span> <span class="n">cluster_key</span><span class="o">=</span><span class="n">leiden_key</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;sum&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pseudobulk_commonFeatures_adata</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>AnnData object with n_obs × n_vars = 7 × 501699
+    obs: &#39;cell_types&#39;
+    var: &#39;cCREs&#39;
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scATAcat</span><span class="o">.</span><span class="n">preprocessing_libsize_norm_log2</span><span class="p">(</span><span class="n">pseudobulk_commonFeatures_adata</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>AnnData object with n_obs × n_vars = 7 × 501699
+    obs: &#39;cell_types&#39;
+    var: &#39;cCREs&#39;
+    layers: &#39;libsize_norm_log2&#39;
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scATAcat</span><span class="o">.</span><span class="n">preprocessing_libsize_norm_log2</span><span class="p">(</span><span class="n">bulk_commonFeatures_adata</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>AnnData object with n_obs × n_vars = 43 × 501699
+    obs: &#39;cell_types&#39;
+    var: &#39;cCREs&#39;
+    layers: &#39;libsize_norm_log2&#39;
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bulk_commonDiffFeatures_adata</span> <span class="o">=</span> <span class="n">scATAcat</span><span class="o">.</span><span class="n">subset_adata_vars</span><span class="p">(</span><span class="n">bulk_commonFeatures_adata</span><span class="p">,</span>
+                                                 <span class="n">vars_list</span><span class="o">=</span><span class="n">common_differential_vars</span><span class="p">,</span>
+                                                 <span class="n">copy_</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bulk_commonDiffFeatures_adata</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>AnnData object with n_obs × n_vars = 43 × 19412
+    obs: &#39;cell_types&#39;
+    var: &#39;cCREs&#39;
+    layers: &#39;libsize_norm_log2&#39;
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pseudobulk_commonDiffFeatures_adata</span> <span class="o">=</span> <span class="n">scATAcat</span><span class="o">.</span><span class="n">subset_adata_vars</span><span class="p">(</span><span class="n">pseudobulk_commonFeatures_adata</span><span class="p">,</span>
+                                                 <span class="n">vars_list</span><span class="o">=</span><span class="n">common_differential_vars</span><span class="p">,</span>
+                                                 <span class="n">copy_</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scATAcat</span><span class="o">.</span><span class="n">preprocessing_standardization</span><span class="p">(</span><span class="n">bulk_commonDiffFeatures_adata</span><span class="p">,</span> <span class="n">input_layer_key</span><span class="o">=</span><span class="s2">&quot;libsize_norm_log2&quot;</span><span class="p">,</span> <span class="n">zero_center</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">adding</span> <span class="n">std</span> <span class="k">with</span> <span class="n">default</span> <span class="n">keywords</span>
+<span class="n">adding</span> <span class="n">mean</span> <span class="k">with</span> <span class="n">default</span> <span class="n">keywords</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>AnnData object with n_obs × n_vars = 43 × 19412
+    obs: &#39;cell_types&#39;
+    var: &#39;cCREs&#39;, &#39;feature_std&#39;, &#39;feature_mean&#39;
+    layers: &#39;libsize_norm_log2&#39;, &#39;libsize_norm_log2_std&#39;
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bulk_commonDiffFeatures_adata</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>AnnData object with n_obs × n_vars = 43 × 19412
+    obs: &#39;cell_types&#39;
+    var: &#39;cCREs&#39;, &#39;feature_std&#39;, &#39;feature_mean&#39;
+    layers: &#39;libsize_norm_log2&#39;, &#39;libsize_norm_log2_std&#39;
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scATAcat</span><span class="o">.</span><span class="n">preprocessing_standardization</span><span class="p">(</span><span class="n">pseudobulk_commonDiffFeatures_adata</span><span class="p">,</span> <span class="n">input_layer_key</span><span class="o">=</span><span class="s2">&quot;libsize_norm_log2&quot;</span><span class="p">,</span> <span class="n">zero_center</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                              <span class="n">output_layer_key</span><span class="o">=</span> <span class="s2">&quot;libsize_norm_log2_bulk_scaled_diff&quot;</span><span class="p">,</span>
+                              <span class="n">std_key</span><span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="n">mean_key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                              <span class="n">std_</span> <span class="o">=</span> <span class="n">bulk_commonDiffFeatures_adata</span><span class="o">.</span><span class="n">var</span><span class="p">[</span><span class="s2">&quot;feature_std&quot;</span><span class="p">],</span>
+                              <span class="n">mean_</span><span class="o">=</span> <span class="n">bulk_commonDiffFeatures_adata</span><span class="o">.</span><span class="n">var</span><span class="p">[</span><span class="s2">&quot;feature_mean&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">adding</span> <span class="n">std</span> <span class="k">with</span> <span class="n">default</span> <span class="n">keywords</span>
+<span class="n">adding</span> <span class="n">mean</span> <span class="k">with</span> <span class="n">default</span> <span class="n">keywords</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>AnnData object with n_obs × n_vars = 7 × 19412
+    obs: &#39;cell_types&#39;
+    var: &#39;cCREs&#39;, &#39;feature_std&#39;, &#39;feature_mean&#39;
+    layers: &#39;libsize_norm_log2&#39;, &#39;libsize_norm_log2_bulk_scaled_diff&#39;
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## as an option, I can add the color codes from the clustering/ sc adata as a paramater for the pseudobulk matrix</span>
+<span class="n">leiden_color_key</span> <span class="o">=</span> <span class="n">leiden_key</span><span class="o">+</span><span class="s2">&quot;_colors&quot;</span>
+<span class="n">pseudobulk_commonDiffFeatures_adata</span><span class="o">.</span><span class="n">uns</span><span class="p">[</span><span class="n">leiden_color_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">sc_commonDiffFeatures_adata</span><span class="o">.</span><span class="n">uns</span><span class="p">[</span><span class="n">leiden_color_key</span><span class="p">]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Projection</strong></p></li>
+</ul>
+<p>Finally, we co-embed the bulk prototypes together with the pseudobulks
+using the projection() function. This function provides highly
+customizable visualization options, some of which are provided below</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## as an option, one can add the color codes from the clustering of sc adata as a paramater for the pseudobulk matrix</span>
+<span class="n">leiden_color_key</span> <span class="o">=</span> <span class="n">leiden_key</span><span class="o">+</span><span class="s2">&quot;_colors&quot;</span>
+<span class="n">pseudobulk_commonDiffFeatures_adata</span><span class="o">.</span><span class="n">uns</span><span class="p">[</span><span class="n">leiden_color_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">sc_commonDiffFeatures_adata</span><span class="o">.</span><span class="n">uns</span><span class="p">[</span><span class="n">leiden_color_key</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="o">=</span> <span class="n">scATAcat</span><span class="o">.</span><span class="n">projection</span><span class="p">(</span><span class="n">prototype_adata</span><span class="o">=</span><span class="n">bulk_commonDiffFeatures_adata</span><span class="p">,</span> <span class="n">pseudobulk_adata</span><span class="o">=</span><span class="n">pseudobulk_commonDiffFeatures_adata</span><span class="p">,</span> <span class="n">prototype_layer_key</span> <span class="o">=</span> <span class="s2">&quot;libsize_norm_log2_std&quot;</span><span class="p">,</span> <span class="n">pseudobulk_layer_key</span><span class="o">=</span><span class="s2">&quot;libsize_norm_log2_bulk_scaled_diff&quot;</span><span class="p">,</span> <span class="n">color_key</span><span class="o">=</span><span class="n">leiden_color_key</span><span class="p">,</span> <span class="n">pseudobulk_label_font_size</span> <span class="o">=</span><span class="mi">13</span><span class="p">,</span> <span class="n">prototype_label_font_size</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+<span class="n">prototype_colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;#38184C&#39;</span><span class="p">,</span>  <span class="s2">&quot;#BDB0D9&quot;</span><span class="p">,</span> <span class="s2">&quot;#92929C&quot;</span><span class="p">,</span><span class="s2">&quot;#BAE33A&quot;</span><span class="p">,</span> <span class="s2">&quot;#7ED9B7&quot;</span><span class="p">,</span> <span class="s2">&quot;#008F8C&quot;</span><span class="p">,</span> <span class="s2">&quot;#275974&quot;</span><span class="p">],</span> <span class="n">pseudobulk_colors</span> <span class="o">=</span>  <span class="kc">None</span><span class="p">,</span> <span class="n">pseudobulk_point_size</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">prototype_point_size</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">pseudobulk_point_alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">prototype_point_alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;twilight_shifted&#39;</span><span class="p">,</span> <span class="n">prototype_legend</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">pseudobulk_legend</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">save_path</span> <span class="o">=</span> <span class="n">figures_dir</span> <span class="o">+</span> <span class="s2">&quot;projection.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/tutorial_80_0.png" src="../_images/tutorial_80_0.png" />
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result_noLabel</span> <span class="o">=</span> <span class="n">scATAcat</span><span class="o">.</span><span class="n">projection</span><span class="p">(</span><span class="n">prototype_adata</span><span class="o">=</span><span class="n">bulk_commonDiffFeatures_adata</span><span class="p">,</span> <span class="n">pseudobulk_adata</span><span class="o">=</span><span class="n">pseudobulk_commonDiffFeatures_adata</span><span class="p">,</span> <span class="n">prototype_layer_key</span> <span class="o">=</span> <span class="s2">&quot;libsize_norm_log2_std&quot;</span><span class="p">,</span> <span class="n">pseudobulk_layer_key</span><span class="o">=</span><span class="s2">&quot;libsize_norm_log2_bulk_scaled_diff&quot;</span><span class="p">,</span> <span class="n">color_key</span><span class="o">=</span><span class="n">leiden_color_key</span><span class="p">,</span> <span class="n">pseudobulk_label_font_size</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">prototype_label_font_size</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                            <span class="n">prototype_colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;#38184C&#39;</span><span class="p">,</span>  <span class="s2">&quot;#BDB0D9&quot;</span><span class="p">,</span> <span class="s2">&quot;#92929C&quot;</span><span class="p">,</span><span class="s2">&quot;#BAE33A&quot;</span><span class="p">,</span> <span class="s2">&quot;#7ED9B7&quot;</span><span class="p">,</span> <span class="s2">&quot;#008F8C&quot;</span><span class="p">,</span> <span class="s2">&quot;#275974&quot;</span><span class="p">],</span> <span class="n">pseudobulk_colors</span> <span class="o">=</span>  <span class="kc">None</span><span class="p">,</span> <span class="n">pseudobulk_point_size</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">prototype_point_size</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">pseudobulk_point_alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">prototype_point_alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;twilight_shifted&#39;</span><span class="p">,</span> <span class="n">prototype_legend</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">pseudobulk_legend</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">save_path</span> <span class="o">=</span> <span class="n">figures_dir</span> <span class="o">+</span> <span class="s2">&quot;projection_noLabel.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/tutorial_81_0.png" src="../_images/tutorial_81_0.png" />
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result_noLabel_noLegend</span> <span class="o">=</span> <span class="n">scATAcat</span><span class="o">.</span><span class="n">projection</span><span class="p">(</span><span class="n">prototype_adata</span><span class="o">=</span><span class="n">bulk_commonDiffFeatures_adata</span><span class="p">,</span> <span class="n">pseudobulk_adata</span><span class="o">=</span><span class="n">pseudobulk_commonDiffFeatures_adata</span><span class="p">,</span> <span class="n">prototype_layer_key</span> <span class="o">=</span> <span class="s2">&quot;libsize_norm_log2_std&quot;</span><span class="p">,</span> <span class="n">pseudobulk_layer_key</span><span class="o">=</span><span class="s2">&quot;libsize_norm_log2_bulk_scaled_diff&quot;</span><span class="p">,</span> <span class="n">color_key</span><span class="o">=</span><span class="n">leiden_color_key</span><span class="p">,</span> <span class="n">pseudobulk_label_font_size</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">prototype_label_font_size</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                            <span class="n">prototype_colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;#38184C&#39;</span><span class="p">,</span>  <span class="s2">&quot;#BDB0D9&quot;</span><span class="p">,</span> <span class="s2">&quot;#92929C&quot;</span><span class="p">,</span><span class="s2">&quot;#BAE33A&quot;</span><span class="p">,</span> <span class="s2">&quot;#7ED9B7&quot;</span><span class="p">,</span> <span class="s2">&quot;#008F8C&quot;</span><span class="p">,</span> <span class="s2">&quot;#275974&quot;</span><span class="p">],</span> <span class="n">pseudobulk_colors</span> <span class="o">=</span>  <span class="kc">None</span><span class="p">,</span> <span class="n">pseudobulk_point_size</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">prototype_point_size</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">pseudobulk_point_alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">prototype_point_alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;twilight_shifted&#39;</span><span class="p">,</span> <span class="n">prototype_legend</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">pseudobulk_legend</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">save_path</span> <span class="o">=</span> <span class="n">figures_dir</span> <span class="o">+</span> <span class="s2">&quot;projection_noLabel_noLegend.png&quot;</span><span class="p">,</span> <span class="n">fig_size_inches</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">15</span><span class="p">))</span>
+</pre></div>
+</div>
+<img alt="../_images/tutorial_82_0.png" src="../_images/tutorial_82_0.png" />
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result_noLabel_noLegend</span> <span class="o">=</span> <span class="n">scATAcat</span><span class="o">.</span><span class="n">projection</span><span class="p">(</span><span class="n">prototype_adata</span><span class="o">=</span><span class="n">bulk_commonDiffFeatures_adata</span><span class="p">,</span> <span class="n">pseudobulk_adata</span><span class="o">=</span><span class="n">pseudobulk_commonDiffFeatures_adata</span><span class="p">,</span> <span class="n">prototype_layer_key</span> <span class="o">=</span> <span class="s2">&quot;libsize_norm_log2_std&quot;</span><span class="p">,</span> <span class="n">pseudobulk_layer_key</span><span class="o">=</span><span class="s2">&quot;libsize_norm_log2_bulk_scaled_diff&quot;</span><span class="p">,</span> <span class="n">color_key</span><span class="o">=</span><span class="n">leiden_color_key</span><span class="p">,</span> <span class="n">pseudobulk_label_font_size</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">prototype_label_font_size</span> <span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                            <span class="n">prototype_colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;#38184C&#39;</span><span class="p">,</span>  <span class="s2">&quot;#BDB0D9&quot;</span><span class="p">,</span> <span class="s2">&quot;#92929C&quot;</span><span class="p">,</span><span class="s2">&quot;#BAE33A&quot;</span><span class="p">,</span> <span class="s2">&quot;#7ED9B7&quot;</span><span class="p">,</span> <span class="s2">&quot;#008F8C&quot;</span><span class="p">,</span> <span class="s2">&quot;#275974&quot;</span><span class="p">],</span> <span class="n">pseudobulk_colors</span> <span class="o">=</span>  <span class="kc">None</span><span class="p">,</span> <span class="n">pseudobulk_point_size</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">prototype_point_size</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">pseudobulk_point_alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">prototype_point_alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;twilight_shifted&#39;</span><span class="p">,</span> <span class="n">prototype_legend</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">pseudobulk_legend</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">save_path</span> <span class="o">=</span> <span class="n">figures_dir</span> <span class="o">+</span> <span class="s2">&quot;projection_noLabel_noLegend.pdf&quot;</span><span class="p">,</span> <span class="n">fig_size_inches</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">15</span><span class="p">))</span>
+</pre></div>
+</div>
+<img alt="../_images/tutorial_83_0.png" src="../_images/tutorial_83_0.png" />
+</section>
+<section id="determining-the-cluster-annotations-by-matching-clusters-to-prototypes">
+<h2>14 - Determining the cluster annotations by matching Clusters to Prototypes<a class="headerlink" href="#determining-the-cluster-annotations-by-matching-clusters-to-prototypes" title="Link to this heading"></a></h2>
+<p>Co-embedding protoypes with pseudobulks, and visualizing the projection
+in 3D PCA space facilitates a simplified interpretation of cell-type
+relationships. However, determining the annotations solely based on a
+visualisation may be tedious. In particular, the first three PCs used in
+the projection might not suffice to fully capture the inherent structure
+of the high dimensional data. Following common practice, we therefore
+keep a larger number of dimension (typically 30 if there are enough
+samples available) to compute Euclidean distances in this
+high-dimensional embedding space.</p>
+<p>To obtain a matching between pseudobulk clusters and prototype samples,
+we first compute centroids for each of the prototype cell-types. Next,
+we compute the Euclidean distances (in many dimensions) between the
+pseudobulk clusters and the centroids, yielding a matrix vizualized in
+heatmap. Finally, we annotate each pseudobulk cluster by its closest
+centroid of a cell-type.</p>
+<p>Below, we provide various data visualization options that are useful for
+interpreting the relationships between pseudobulks and prototypes</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">heatmap</span> <span class="o">=</span> <span class="n">scATAcat</span><span class="o">.</span><span class="n">plot_pca_dist_heatmap</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">result</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+<img alt="../_images/tutorial_85_0.png" src="../_images/tutorial_85_0.png" />
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">centroid_heatmap</span> <span class="o">=</span>  <span class="n">scATAcat</span><span class="o">.</span><span class="n">plot_pca_dist_cent_heatmap</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">result</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+<img alt="../_images/tutorial_86_0.png" src="../_images/tutorial_86_0.png" />
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">heatmap</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">figures_dir</span> <span class="o">+</span><span class="s2">&quot;/heatmap.png&quot;</span><span class="p">)</span>
+<span class="n">centroid_heatmap</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">figures_dir</span> <span class="o">+</span><span class="s2">&quot;/centroid_heatmap.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clusterID_prediction_dict</span> <span class="o">=</span> <span class="n">scATAcat</span><span class="o">.</span><span class="n">get_closest_prototype_to_pseudobulk</span><span class="p">(</span><span class="n">centroid_heatmap</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">clusterID_prediction_dict</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;clust_0_pbulk&#39;</span><span class="p">:</span> <span class="s1">&#39;CMP&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;clust_1_pbulk&#39;</span><span class="p">:</span> <span class="s1">&#39;HSC&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;clust_2_pbulk&#39;</span><span class="p">:</span> <span class="s1">&#39;GMP&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;clust_3_pbulk&#39;</span><span class="p">:</span> <span class="s1">&#39;MEP&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;clust_4_pbulk&#39;</span><span class="p">:</span> <span class="s1">&#39;HSC&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;clust_5_pbulk&#39;</span><span class="p">:</span> <span class="s1">&#39;LMPP&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;clust_6_pbulk&#39;</span><span class="p">:</span> <span class="s1">&#39;CLP&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cluster_to_pseudobulk_heatmap_plot</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">clustermap</span><span class="p">(</span><span class="n">scATAcat</span><span class="o">.</span><span class="n">get_pseudobulk_to_prototype_distance</span><span class="p">(</span><span class="n">centroid_heatmap</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">pbulk_to_prototype</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="n">yticklabels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">xticklabels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/tutorial_89_0.png" src="../_images/tutorial_89_0.png" />
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cluster_to_pseudobulk_heatmap_plot</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">figures_dir</span><span class="o">+</span><span class="s2">&quot;/cluster_to_pseudobulk_heatmap_plot.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># save vestor friendly pdf file</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;pdf.fonttype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;ps.fonttype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
+
+<span class="n">cluster_to_pseudobulk_heatmap_plot</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">figures_dir</span><span class="o">+</span><span class="s2">&quot;/cluster_to_pseudobulk_heatmap_plot.pdf&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="make-a-final-dataframe-including-the-cluster-ids-and-the-final-annotations-of-each-cell">
+<h2>15 - make a final dataframe including the cluster IDs and the final annotations of each cell:<a class="headerlink" href="#make-a-final-dataframe-including-the-cluster-ids-and-the-final-annotations-of-each-cell" title="Link to this heading"></a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cell_cluster_assignments</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>leiden_0.4</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>CLP_1</th>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>CMP_0</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>CMP_1</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>CMP_2</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>CMP_3</th>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>LMPP_90</th>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>LMPP_91</th>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>LMPP_93</th>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>LMPP_94</th>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>LMPP_95</th>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+<p>1872 rows × 1 columns</p>
+</div><div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">modified_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;clust_&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_pbulk&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">):</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">clusterID_prediction_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">modified_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;0&#39;</span><span class="p">:</span> <span class="s1">&#39;CMP&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">:</span> <span class="s1">&#39;HSC&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">:</span> <span class="s1">&#39;GMP&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">:</span> <span class="s1">&#39;MEP&#39;</span><span class="p">,</span> <span class="s1">&#39;4&#39;</span><span class="p">:</span> <span class="s1">&#39;HSC&#39;</span><span class="p">,</span> <span class="s1">&#39;5&#39;</span><span class="p">:</span> <span class="s1">&#39;LMPP&#39;</span><span class="p">,</span> <span class="s1">&#39;6&#39;</span><span class="p">:</span> <span class="s1">&#39;CLP&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert cluster IDs to string if they are not already, to match the dictionary keys</span>
+<span class="n">cell_cluster_assignments</span><span class="p">[</span><span class="s1">&#39;leiden_0.4&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cell_cluster_assignments</span><span class="p">[</span><span class="s1">&#39;leiden_0.4&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+
+<span class="c1"># Add a new column by mapping the &#39;ID&#39; column to the modified_dict</span>
+<span class="n">cell_cluster_assignments</span><span class="p">[</span><span class="s1">&#39;Annotation&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cell_cluster_assignments</span><span class="p">[</span><span class="s1">&#39;leiden_0.4&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">modified_dict</span><span class="p">)</span>
+
+<span class="n">cell_cluster_assignments</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>leiden_0.4</th>
+      <th>Annotation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>CLP_1</th>
+      <td>6</td>
+      <td>CLP</td>
+    </tr>
+    <tr>
+      <th>CMP_0</th>
+      <td>0</td>
+      <td>CMP</td>
+    </tr>
+    <tr>
+      <th>CMP_1</th>
+      <td>0</td>
+      <td>CMP</td>
+    </tr>
+    <tr>
+      <th>CMP_2</th>
+      <td>0</td>
+      <td>CMP</td>
+    </tr>
+    <tr>
+      <th>CMP_3</th>
+      <td>3</td>
+      <td>MEP</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>LMPP_90</th>
+      <td>5</td>
+      <td>LMPP</td>
+    </tr>
+    <tr>
+      <th>LMPP_91</th>
+      <td>5</td>
+      <td>LMPP</td>
+    </tr>
+    <tr>
+      <th>LMPP_93</th>
+      <td>5</td>
+      <td>LMPP</td>
+    </tr>
+    <tr>
+      <th>LMPP_94</th>
+      <td>5</td>
+      <td>LMPP</td>
+    </tr>
+    <tr>
+      <th>LMPP_95</th>
+      <td>5</td>
+      <td>LMPP</td>
+    </tr>
+  </tbody>
+</table>
+<p>1872 rows × 2 columns</p>
+</div><div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cell_cluster_assignments</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_dir</span> <span class="o">+</span><span class="s2">&quot;cell_cluster_assignments.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="export-anndata-object">
+<h2>export AnnData object<a class="headerlink" href="#export-anndata-object" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt>with open(output_dir +’/sc_commonDiffFeatures_adata.pkl’, ‘wb’) as f:</dt><dd><p>pickle.dump(sc_commonDiffFeatures_adata, f)</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../installation/installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Aybuge Altay.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

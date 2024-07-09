@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>scATAcat.bulk_data_functions &mdash; scATAcat</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=92fd9be5" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
 
   
@@ -32,7 +32,7 @@
           
           <a href="../../index.html" class="icon icon-home">
             scATAcat Documentation
-              <img src="../../_static/logo.svg" class="logo" alt="Logo"/>
+              <img src="../../_static/logo_white.svg" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -44,7 +44,9 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">src</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../scATAcat.html">scATAcat package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/tutorial.html">Tutorial</a></li>
 </ul>
 
         </div>
@@ -84,14 +86,12 @@
 <span class="sd">    Generate AnnData object from DataFrame.</span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">    </span>
-<span class="sd">        - bulk_df (DataFrame): Dataframe of prototype data:</span>
+<span class="sd">    - bulk_df (DataFrame): Dataframe of prototype data:</span>
 <span class="sd">        - columns: cell types / samples</span>
 <span class="sd">        - rows: featues (cCREs)</span>
 <span class="sd">        </span>
 <span class="sd">    Returns:</span>
-<span class="sd">    </span>
-<span class="sd">        - AnnData of prototypes.</span>
+<span class="sd">    - AnnData of prototypes.</span>
 <span class="sd">        </span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">features</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">bulk_df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
@@ -111,13 +111,11 @@
 <span class="sd">    Generate AnnData object from DataFrame. The count matrix is sparse. </span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">    </span>
 <span class="sd">    - bulk_df (DataFrame): Dataframe of prototype data:</span>
-<span class="sd">    - columns: cell types / samples</span>
-<span class="sd">    - rows: featues (cCREs)</span>
+<span class="sd">        - columns: cell types / samples</span>
+<span class="sd">        - rows: featues (cCREs)</span>
 <span class="sd">        </span>
 <span class="sd">    Returns:</span>
-<span class="sd">    </span>
 <span class="sd">    - AnnData of prototypes.</span>
 <span class="sd">        </span>
 <span class="sd">    &#39;&#39;&#39;</span>
@@ -144,15 +142,13 @@
 <span class="sd">    If copy is False, the original AnnData object is modified in place, and the preprocessed AnnData object is returned.</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters:</span>
-<span class="sd">    </span>
-<span class="sd">        - bulk_adata (AnnData): An AnnData object containing the prototype count matrix.</span>
-<span class="sd">        - remove_chrY (bool, optional): Whether to remove features associated with chromosome Y. Default is True.</span>
-<span class="sd">        - var_key (str, optional): Key for accessing feature information in AnnData.var. Default is &#39;cCREs&#39;.</span>
-<span class="sd">        - copy (bool, optional): If True, a copy of the AnnData object is returned; if False, the original AnnData object is modified. Default is False.</span>
+<span class="sd">    - bulk_adata (AnnData): An AnnData object containing the prototype count matrix.</span>
+<span class="sd">    - remove_chrY (bool, optional): Whether to remove features associated with chromosome Y. Default is True.</span>
+<span class="sd">    - var_key (str, optional): Key for accessing feature information in AnnData.var. Default is &#39;cCREs&#39;.</span>
+<span class="sd">    - copy (bool, optional): If True, a copy of the AnnData object is returned; if False, the original AnnData object is modified. Default is False.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">    </span>
-<span class="sd">        - AnnData: The preprocessed AnnData object.</span>
+<span class="sd">    - AnnData: The preprocessed AnnData object.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">feature_coverage</span> <span class="o">=</span> <span class="n">bulk_adata</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">copy</span><span class="o">==</span><span class="kc">False</span><span class="p">:</span>

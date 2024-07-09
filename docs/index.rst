@@ -11,6 +11,8 @@ Welcome to scATAcat's documentation!
    :caption: Contents:
 
    modules
+   installation/installation.rst
+   tutorial/tutorial.rst
 
 Indices and tables
 ==================

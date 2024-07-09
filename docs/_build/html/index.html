@@ -4,8 +4,8 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to scATAcat Documentation’s documentation! &mdash; scATAcat</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+  <title>Welcome to scATAcat’s documentation! &mdash; scATAcat</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=92fd9be5" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
   
@@ -21,7 +21,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="src" href="modules.html" /> 
+    <link rel="next" title="&lt;no title&gt;" href="modules.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -34,7 +34,7 @@
           
           <a href="#" class="icon icon-home">
             scATAcat Documentation
-              <img src="_static/logo.svg" class="logo" alt="Logo"/>
+              <img src="_static/logo_white.svg" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -46,7 +46,9 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">src</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scATAcat.html">scATAcat package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial.html">Tutorial</a></li>
 </ul>
 
         </div>
@@ -63,7 +65,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Welcome to scATAcat Documentation’s documentation!</li>
+      <li class="breadcrumb-item active">Welcome to scATAcat’s documentation!</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -73,13 +75,37 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="welcome-to-scatacat-documentation-s-documentation">
-<h1>Welcome to scATAcat Documentation’s documentation!<a class="headerlink" href="#welcome-to-scatacat-documentation-s-documentation" title="Link to this heading"></a></h1>
+  <section id="welcome-to-scatacat-s-documentation">
+<h1>Welcome to scATAcat’s documentation!<a class="headerlink" href="#welcome-to-scatacat-s-documentation" title="Link to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">src</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scATAcat.html">scATAcat package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scATAcat.html">scATAcat package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scATAcat.html#module-scATAcat.bulk_data_functions">scATAcat.bulk_data_functions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scATAcat.html#module-scATAcat.helper_functions">scATAcat.helper_functions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scATAcat.html#module-scATAcat.plot_functions">scATAcat.plot_functions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scATAcat.html#module-scATAcat.pseudobulk_functions">scATAcat.pseudobulk_functions module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/tutorial.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial.html#load-scatac-seq-data">0 - Load scATAC-seq data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial.html#initialize-the-anndata-object">1 - initialize the AnnData object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial.html#add-binary-layer-to-anndata">2 - add binary layer to AnnData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial.html#calculate-plot-cell-and-feature-statistics">3- calculate &amp; plot cell and feature statistics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial.html#filter-the-cells-and-features">4- filter the cells and features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial.html#load-preprocess-the-bulk-data">5- load &amp; preprocess the bulk data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial.html#overlap-bulk-and-sc-features">6 - Overlap bulk and sc features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial.html#doublet-removal">7- doublet removal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial.html#apply-tf-idf">8- apply TF-IDF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial.html#subset-matrices-to-differential-ccres">9 - subset matrices to differential cCREs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial.html#dimention-reduction-and-clustering">10- dimention reduction and clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial.html#apply-umap-leiden-clustering">11 - apply UMAP &amp; leiden clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial.html#create-pseudobulks-according-to-the-cluster-assignments">12 - create pseudobulks according to the cluster assignments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial.html#coembedding-prototypes-with-pseudobulks-in-pca-space">13 - Coembedding prototypes with pseudobulks in PCA space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial.html#determining-the-cluster-annotations-by-matching-clusters-to-prototypes">14 - Determining the cluster annotations by matching Clusters to Prototypes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial.html#make-a-final-dataframe-including-the-cluster-ids-and-the-final-annotations-of-each-cell">15 - make a final dataframe including the cluster IDs and the final annotations of each cell:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial.html#export-anndata-object">export AnnData object</a></li>
 </ul>
 </li>
 </ul>
@@ -98,7 +124,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="modules.html" class="btn btn-neutral float-right" title="src" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="modules.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -1,9 +1,6 @@
 scATAcat package
 ================
 
-Submodules
-----------
-
 scATAcat.bulk\_data\_functions module
 -------------------------------------
 
@@ -35,9 +32,6 @@ scATAcat.pseudobulk\_functions module
    :members:
    :undoc-members:
    :show-inheritance:
-
-Module contents
----------------
 
 .. automodule:: scATAcat
    :members:
