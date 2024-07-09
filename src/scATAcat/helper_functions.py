@@ -284,10 +284,6 @@ def sparse_mean_variance_axis(mtx: scipy.sparse.spmatrix, axis: int):
 
 def preprocessing_standardization(adata, input_layer_key="libsize_norm_log2", output_layer_key = "libsize_norm_log2_std", std_key= None,  mean_key=None, std_ = None, mean_= None, zero_center=True):
     '''
-    Perform z-normalization at the feature level. If the standard deviation (``std_``) and ``mean_`` are already included in the AnnData (adata), the function applies normalization directly. In the absence of these variables, it calculates and adds the standard deviation and ``mean_`` to the AnnData using the specified layer key (``layer_key``). Subsequently, it performs z-normalization.
-
-    Additionally, if alternative ``std_`` and ``mean_`` matrices/arrays are provided, these values are utilized for the calculations instead of assuming zero mean and unit variance.
-
     Parameters:
    
     - adata (AnnData): An AnnData object containing the sc count matrix.
