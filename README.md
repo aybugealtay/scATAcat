@@ -14,5 +14,4 @@ pip install git+https://github.com/aybugealtay/scATAcat.git
 ```
 
 ## How to use scATAcat:
-
-A step-by-step tutorial guiding you through the use of scATAcat is provided in [this folder](https://github.com/aybugealtay/scATAcat/tree/main/tutorial).
+For a detailed documentation and step-by-step tutorial guiding you through the use of scATAcat : read the [documentation](https://scatacat.readthedocs.io)
